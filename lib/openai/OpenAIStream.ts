@@ -25,6 +25,8 @@ export async function OpenChatGPTStream(payload: ChatGPTStreamPayload) {
 	const encoder = new TextEncoder()
 	const decoder = new TextDecoder()
 
+	let isStreaming = false
+
 	const res = await fetch("https://api.openai.com/v1/chat/completions", {
 		headers: {
 			"Content-Type": "application/json",
@@ -46,8 +48,16 @@ export async function OpenChatGPTStream(payload: ChatGPTStreamPayload) {
 					try {
 						const json = JSON.parse(data)
 						const text = json.choices[0].delta.content
+						if (!text) {
+							return
+						}
+						if (!isStreaming && text.replace(/\n/g, '').replace(/\s/g, '') === '') {
+							// this is a prefix character (i.e., "\n\n"), do nothing
+							return
+						}
 						const queue = encoder.encode(text)
 						controller.enqueue(queue)
+						isStreaming = true;
 					} catch (e) {
 						// maybe parse error
 						controller.error(e)
