@@ -1,5 +1,4 @@
 import admin from "firebase-admin"
-import { PotLuckData } from "../../components/Types"
 
 const firebaseConfig = {
   apiKey: "AIzaSyA2iPM2mdJIQpccBjxQP89hQG8k7euSUcM",
@@ -25,44 +24,44 @@ try {
 
 const db = admin.firestore()
 
-export const storePotLuckData = async (data: PotLuckData) => {
-  console.log("storePotLuckData")
-  const res = await db.collection("potluck").add({
-    created: admin.firestore.FieldValue.serverTimestamp(),
-    data,
-  })
+// export const storePotLuckData = async (data: PotLuckData) => {
+//   console.log("storePotLuckData")
+//   const res = await db.collection("potluck").add({
+//     created: admin.firestore.FieldValue.serverTimestamp(),
+//     data,
+//   })
 
-  return res.id
-}
+//   return res.id
+// }
 
-export const getPotLuck = async (id: string) => {
-  const potLuckData = await (
-    await db.collection("potluck").doc(id).get()
-  ).data()
+// export const getPotLuck = async (id: string) => {
+//   const potLuckData = await (
+//     await db.collection("potluck").doc(id).get()
+//   ).data()
 
-  if (potLuckData && potLuckData.created) {
-    potLuckData.created = potLuckData.created.toDate().toISOString()
-  }
+//   if (potLuckData && potLuckData.created) {
+//     potLuckData.created = potLuckData.created.toDate().toISOString()
+//   }
 
-  return potLuckData
-}
+//   return potLuckData
+// }
 
-export const getRecentPotLucks = async (startAfter?: string) => {
-  const potlucksRef = db.collection("potluck")
-  const snapshot = startAfter
-    ? await potlucksRef
-      .orderBy("created", "desc")
-      .startAfter(startAfter)
-      .limit(6)
-      .get()
-    : await potlucksRef.orderBy("created", "desc").limit(6).get()
-  const recentPotLucks = snapshot.docs.map((doc) => {
-    const data = doc.data()
-    data.id = doc.id
-    return data
-  })
-  return recentPotLucks
-}
+// export const getRecentPotLucks = async (startAfter?: string) => {
+//   const potlucksRef = db.collection("potluck")
+//   const snapshot = startAfter
+//     ? await potlucksRef
+//         .orderBy("created", "desc")
+//         .startAfter(startAfter)
+//         .limit(6)
+//         .get()
+//     : await potlucksRef.orderBy("created", "desc").limit(6).get()
+//   const recentPotLucks = snapshot.docs.map((doc) => {
+//     const data = doc.data()
+//     data.id = doc.id
+//     return data
+//   })
+//   return recentPotLucks
+// }
 
 export const MAX_DAILY_TOKENS = 100000
 
