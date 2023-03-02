@@ -19,11 +19,11 @@ class MyDocument extends Document {
           <meta name="twitter:description" content={description} />
           <meta
             property="og:image"
-            content="https://botlywood.com/botlywood-screenshot.png"
+            content="https://botlywood.ca/botlywood-screenshot.png"
           />
           <meta
             name="twitter:image"
-            content="https://botlywood.com/botlywood-screenshot.png"
+            content="https://botlywood.ca/botlywood-screenshot.png"
           />
         </Head>
         <body>
