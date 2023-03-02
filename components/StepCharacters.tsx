@@ -76,11 +76,14 @@ const StepCharacters = () => {
       let supportingPrompt = ""
 
       for (let i = 0; i < supportingArray.length; i++) {
-        const supportingName = supportingArray[i].trim().replace(/\.$/, "")
+        const supportingName = supportingArray[i]
+          .replace(/^\d+\.\s/, "")
+          .trim()
+          .replace(/\.$/, "")
         const basePrompt = `Generate a description for a supporting character named ${supportingName} for a ${context.genre} movie based on the logline "${context.logline}". The main character is ${hero.name}. ${hero.description} The antagonist is ${villain.name}. ${villain.description}`
         supportingCharacters[i] = { name: supportingName, description: "" }
         setSupporting([...supportingCharacters])
-        const promptSupporting = `${basePrompt} ${supportingPrompt} Write a two sentence character description for another supporting character, ${supportingName}.`
+        const promptSupporting = `${basePrompt} ${supportingPrompt} Write a description this supporting character ${supportingName}.`
         await useStreamingDataFromPrompt(promptSupporting, (description) => {
           supportingCharacters[i] = { name: supportingName, description }
           supportingPrompt += ` A supporting character is ${supportingName}. ${description}`
