@@ -11,7 +11,7 @@ class MyDocument extends Document {
             href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🎥</text></svg>"
           />
           <meta name="description" content={description} />
-          <meta property="og:site_name" content="Botlywood" />
+          <meta property="og:site_name" content="botlywood.ca" />
           <meta property="og:description" content={description} />
           <meta property="og:title" content="botlywood.ca" />
           <meta name="twitter:card" content="summary_large_image" />
