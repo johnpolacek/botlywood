@@ -8,10 +8,12 @@ const Steps: React.FC = () => {
   const { step } = useContext(AppContext)
 
   return (
-    <div className="-mt-24 md:-mt-80 pb-16 mx-auto relative z-10">
-      {step === 0 && <StepGenre />}
-      {step === 1 && <StepCharacters />}
-      {step === 2 && <StepActs />}
+    <div className="w-full relative z-10">
+      <div className="h-full min-h-[50vw] flex flex-col items-center justify-center mx-auto relative z-10 pt-40 sm:pt-80">
+        {step === 0 && <StepGenre />}
+        {step === 1 && <StepCharacters />}
+        {step === 2 && <StepActs />}
+      </div>
     </div>
   )
 }

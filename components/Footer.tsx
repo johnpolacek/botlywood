@@ -3,7 +3,7 @@ import Separator from "./ui/Separator"
 export default function Footer() {
   return (
     <footer
-      className={`flex flex-col px-4 justify-center items-center gap-2 text-center pb-24 w-full font-mono`}
+      className={`flex flex-col px-4 justify-center items-center gap-2 text-center pb-24 w-full font-mono relative z-10`}
       style={{
         background:
           "linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(33,33,33,1) 100%)",

@@ -28,8 +28,11 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.42.0",
     "react-hot-toast": "^2.4.0",
+    "react-textarea-autosize": "^8.4.0",
     "react-use-measure": "^2.1.1",
-    "untruncate-json": "^0.0.1"
+    "untruncate-json": "^0.0.1",
+    "url-slug": "^3.0.4",
+    "waait": "^1.0.5"
   },
   "devDependencies": {
     "@types/node": "18.11.3",
