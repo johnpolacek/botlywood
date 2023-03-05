@@ -9,11 +9,13 @@ export const useStreamingDataFromPrompt = async ({
   prompt,
   messages,
   onData,
+  onError,
   onDone,
 }: {
   onData: (data: string) => void
   prompt?: string
   messages?: Message[]
+  onError?: () => void
   onDone?: () => void
 }) => {
   if (!prompt && !messages) {
@@ -35,8 +37,6 @@ export const useStreamingDataFromPrompt = async ({
     throw new Error(response.statusText)
   }
 
-  console.log("response.body", response.body)
-
   // This data is a ReadableStream
   const stream = response.body
   if (!stream) {
@@ -49,7 +49,20 @@ export const useStreamingDataFromPrompt = async ({
   let done = false
   let responseString = ""
 
-  console.log("reading stream")
+  console.log("reading stream...")
+
+  setTimeout(() => {
+    console.log(
+      "1s response timeout check... isStreaming: " + (responseString !== "")
+    )
+    if (responseString === "") {
+      console.log("do error " + typeof onError)
+      if (onError) {
+        onError()
+      }
+      done = true
+    }
+  }, 1000)
 
   while (!done) {
     const { value, done: doneReading } = await reader.read()

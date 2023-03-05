@@ -14,11 +14,13 @@ const StepGenre = () => {
 
   return (
     <div className="relative z-10">
-      <GenrePicker />
-      {context.genre && <LoglinePicker />}
+      <div className="min-h-[300px]">
+        <GenrePicker />
+        {context.genre && <LoglinePicker />}
+      </div>
       <NextButton
         onClick={onCompleteStep}
-        disabled={!context.genre && !context.logline}
+        disabled={!context.genre || !context.logline}
       />
     </div>
   )

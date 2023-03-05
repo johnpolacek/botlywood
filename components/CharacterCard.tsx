@@ -8,7 +8,7 @@ const CharacterCard = ({
   onReroll,
 }: {
   character: Character
-  onReroll?: () => {}
+  onReroll?: () => void
 }) => {
   const targetRef = useRef<HTMLHeadingElement>(null)
 
@@ -28,7 +28,7 @@ const CharacterCard = ({
       </div>
       {character.description ? (
         <>
-          <div className="text-lg">{character.description}</div>
+          <div className="text-lg min-h-[72px]">{character.description}</div>
           {onReroll && (
             <div className="text-center pt-8 pb-2">
               <RerollButton onReroll={onReroll} />

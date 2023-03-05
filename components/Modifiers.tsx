@@ -6,7 +6,7 @@ export default function Modifiers() {
   const { genre, logline, setLogline } = useContext(AppContext)
 
   const modify = (modifier: string) => {
-    const prompt = `Rewrite a 3 sentence plot idea for a ${genre} movie that has a very similar plot as "${logline}" but ${modifier}`
+    const prompt = `Rewrite plot idea for a ${genre} movie that has a very similar plot as "${logline}" but ${modifier}. Make the response be three sentences or less.`
     useStreamingDataFromPrompt({
       prompt,
       onData: (newLogline) => {
@@ -41,7 +41,7 @@ export default function Modifiers() {
       <ModifierButton modifier="with smaller stakes">Smaller</ModifierButton>
       <ModifierButton>Darker</ModifierButton>
       <ModifierButton modifier="brighter and more positive">
-        Bigger
+        Brighter
       </ModifierButton>
     </div>
   )

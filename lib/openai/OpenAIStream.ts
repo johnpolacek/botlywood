@@ -25,8 +25,6 @@ export async function OpenChatGPTStream(payload: ChatGPTStreamPayload) {
   const encoder = new TextEncoder()
   const decoder = new TextDecoder()
 
-  console.log("OpenChatGPTStream")
-
   let isStreaming = false
 
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -38,11 +36,13 @@ export async function OpenChatGPTStream(payload: ChatGPTStreamPayload) {
     body: JSON.stringify(payload),
   })
 
-  console.log("got response", res.body)
-
   const stream = new ReadableStream({
     async start(controller) {
-      function onParse(event: ParsedEvent | ReconnectInterval) {
+      console.log("open stream controller")
+      const onParse = (event: ParsedEvent | ReconnectInterval) => {
+        if (!isStreaming) {
+          console.log("onParse")
+        }
         if (event.type === "event") {
           const data = event.data
           if (data === "[DONE]") {
@@ -77,6 +77,13 @@ export async function OpenChatGPTStream(payload: ChatGPTStreamPayload) {
           console.log("bad event", { event })
         }
       }
+
+      setTimeout(() => {
+        console.log("1s response timeout check... isStreaming: " + isStreaming)
+        if (!isStreaming) {
+          controller.error(new Error("Response timeout"))
+        }
+      }, 1000)
 
       // stream response (SSE) from OpenAI may be fragmented into multiple chunks
       // this ensures we properly read chunks and invoke an event for each SSE event stream

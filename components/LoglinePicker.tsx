@@ -10,7 +10,7 @@ const LoglinePicker: React.FC = () => {
   const { logline, setLogline, loglineOptions } = useContext(AppContext)
 
   return (
-    <div className="my-12 items-center sm:space-x-3 max-w-4xl mx-auto">
+    <div className="my-12 items-center sm:space-x-3 max-w-4xl mx-auto w-full min-h-[300px]">
       <label>
         <>
           <Heading>Choose a Plot Summary</Heading>
@@ -27,7 +27,7 @@ const LoglinePicker: React.FC = () => {
           )}
           <p className="pt-6 text-lg">Or write your own</p>
           <TextareaAutosize
-            className="w-full rounded-lg mt-4 text-black px-8 py-6"
+            className="w-full rounded-lg text-lg mt-4 text-black px-8 py-6"
             onChange={(e) => {
               setLogline(e.target.value)
             }}

@@ -21,7 +21,7 @@ const RadioGroupCards = ({
         </RadioGroup.Label>
       )}
 
-      <div className="mt-4 grid grid-cols-1 gap-y-4 text-white text-left">
+      <div className="flex flex-col mt-4 gap-y-4 text-white text-left w-full min-h-[300px]">
         {options.map((opt, i) => {
           const option = opt.replace(/^\d+\.\s/, "")
           return (
@@ -41,7 +41,7 @@ const RadioGroupCards = ({
               {({ checked, active }) => (
                 <>
                   <span className="flex flex-1">
-                    <span className="flex flex-col pr-4">{option}</span>
+                    <span className="flex flex-col pr-4 text-lg">{option}</span>
                   </span>
                   <CheckCircleIcon
                     className={classNames(
