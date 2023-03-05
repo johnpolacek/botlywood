@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react"
 import Image from "next/image"
 import wait from "waait"
 
-const ImageCrossFade = ({ imgUrl }: { imgUrl: string }) => {
+interface ImageCrossFadeProps {
+  imgUrl: string;
+  width: number;
+  height: number;
+}
+
+const ImageCrossFade = ({ imgUrl, width, height, }: ImageCrossFadeProps) => {
   const [fadeIn, setFadeIn] = useState<boolean>(false)
   const [loaded, setLoaded] = useState<boolean>(false)
   const [loadedImage, setLoadedImage] = useState<string>(imgUrl)
@@ -19,7 +25,6 @@ const ImageCrossFade = ({ imgUrl }: { imgUrl: string }) => {
           onLoadingComplete={() => {
             setLoaded(true)
             wait(1100).then(() => {
-              console.log("setLoadedImage")
               setLoadedImage(imgUrl)
             })
           }}
@@ -28,29 +33,28 @@ const ImageCrossFade = ({ imgUrl }: { imgUrl: string }) => {
           priority
           width={1728}
           height={864}
-          className={`w-full absolute top-0 left-0 z-10 transition-opacity duration-1000 ${
-            loaded ? "opacity-100" : "opacity-0"
-          }`}
+          className={`w-full absolute top-0 left-0 z-10 transition-opacity duration-1000 ${loaded ? "opacity-100" : "opacity-0"
+            }`}
         />
       )}
-      <Image
-        onLoadingComplete={() => {
-          setFadeIn(false)
-        }}
-        alt=""
-        src={loadedImage}
-        priority
-        width={1728}
-        height={864}
-        className={`w-full transition-opacity duration-1000 ${
-          fadeIn && !loaded ? "opacity-0" : "opacity-100"
-        }`}
-      />
+      {
+        loadedImage && (<Image
+          onLoadingComplete={() => {
+            setFadeIn(false)
+          }}
+          alt=""
+          src={loadedImage}
+          priority
+          width={width}
+          height={height}
+          className={`w-full`}
+        />)
+      }
       <div
         className="w-full h-full absolute left-0 bottom-0 z-10"
         style={{
           background:
-            "linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,.6) 40%, rgba(0,0,0,0) 80%)",
+            "linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 80%)",
         }}
       ></div>
     </div>

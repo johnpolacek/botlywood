@@ -1,5 +1,5 @@
 import Steps from "./Steps"
-import BackgroundImage from "./BackgroundImage"
+import BackgroundImage from "./ui/BackgroundImage"
 
 const App: React.FC = () => {
   return (
