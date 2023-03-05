@@ -15,7 +15,7 @@ const StepCharacters = () => {
     characterStep = <StepCharacterVillain />
   } else if (characters.hero && characters.villain && !characters.supporting) {
     characterStep = <StepCharacterSupporting />
-  } else if (characters.hero && characters.villain && !characters.supporting) {
+  } else if (characters.hero && characters.villain && characters.supporting) {
     incrementStep()
   }
 
