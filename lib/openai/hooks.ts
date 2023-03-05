@@ -52,11 +52,8 @@ export const useStreamingDataFromPrompt = async ({
   console.log("reading stream...")
 
   setTimeout(() => {
-    console.log(
-      "1s response timeout check... isStreaming: " + (responseString !== "")
-    )
     if (responseString === "") {
-      console.log("do error " + typeof onError)
+      console.log("stream response timeout")
       if (onError) {
         onError()
       }

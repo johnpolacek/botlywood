@@ -56,6 +56,10 @@ const GenrePicker: React.FC = () => {
           console.error(error)
         }
       },
+      onError: () => {
+        console.log("Plot idea generation failed, retry...")
+        onChangeGenre(genre)
+      },
     })
   }
 

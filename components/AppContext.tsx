@@ -4,6 +4,7 @@ import { Characters, AppContextType } from "./Types"
 const AppContext = createContext<AppContextType>({
   step: 0,
   setStep: () => {},
+  incrementStep: () => {},
   title: "",
   setTitle: () => {},
   genre: "",
@@ -48,6 +49,10 @@ const AppContextProvider: React.FC<{
 
   const setStep = (newStep: number) => {
     setState((prevState) => ({ ...prevState, step: newStep }))
+  }
+
+  const incrementStep = () => {
+    setState((prevState) => ({ ...prevState, step: prevState.step + 1 }))
   }
 
   const setTitle = (newTitle: string) => {
@@ -96,6 +101,7 @@ const AppContextProvider: React.FC<{
       value={{
         step: state.step,
         setStep,
+        incrementStep,
         title: state.title,
         setTitle,
         genre: state.genre,

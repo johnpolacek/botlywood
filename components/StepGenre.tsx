@@ -9,7 +9,7 @@ const StepGenre = () => {
 
   const onCompleteStep = async (e: React.SyntheticEvent) => {
     e.preventDefault()
-    context.setStep(1)
+    context.incrementStep()
   }
 
   return (

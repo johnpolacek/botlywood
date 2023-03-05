@@ -22,7 +22,7 @@ const CharacterCard = ({
   }, [targetRef.current])
 
   return (
-    <div className="flex flex-col p-4 md:p-8 border border-indigo-900 rounded-lg bg-[rgba(0,0,0,.66)] w-full">
+    <div className="flex flex-col p-4 md:p-8 border border-indigo-900 rounded-lg bg-[rgba(0,0,0,.75)] w-full">
       <div ref={targetRef} className="font-bold text-xl pb-2">
         {character.name}
       </div>
