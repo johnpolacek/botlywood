@@ -8,16 +8,21 @@ const GenrePicker: React.FC = () => {
   const { genre, setGenre, setLoglineOptions } = useContext(AppContext)
 
   const onChangeGenre = async (genre: string) => {
-    const prompt = `Generate 5 random plot ideas for a ${genre} movie in JSON format as an array of strings`
+    const prompt = `Generate 5 random plot ideas that of 3 sentences or less each for a ${genre} movie in JSON format as an array of strings`
     setLoglineOptions([])
 
-    await useStreamingDataFromPrompt(prompt, (loglineOptionsString) => {
-      try {
-        const loglineOptions = JSON.parse(untruncateJson(loglineOptionsString))
-        setLoglineOptions(loglineOptions)
-      } catch (error) {
-        console.error(error)
-      }
+    await useStreamingDataFromPrompt({
+      prompt,
+      onData: (loglineOptionsString) => {
+        try {
+          const loglineOptions = JSON.parse(
+            untruncateJson(loglineOptionsString)
+          )
+          setLoglineOptions(loglineOptions)
+        } catch (error) {
+          console.error(error)
+        }
+      },
     })
   }
 

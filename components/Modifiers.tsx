@@ -6,9 +6,12 @@ export default function Modifiers() {
   const { genre, logline, setLogline } = useContext(AppContext)
 
   const modify = (modifier: string) => {
-    const prompt = `Rewrite a plot idea for a ${genre} movie that has a very similar plot as "${logline}" but ${modifier}`
-    useStreamingDataFromPrompt(prompt, (newLogline) => {
-      setLogline(newLogline)
+    const prompt = `Rewrite a 3 sentence plot idea for a ${genre} movie that has a very similar plot as "${logline}" but ${modifier}`
+    useStreamingDataFromPrompt({
+      prompt,
+      onData: (newLogline) => {
+        setLogline(newLogline)
+      },
     })
   }
 

@@ -1,22 +1,41 @@
 // use this hook to fetch data from a stream
 // get the cumulative response as it is read
-export const useStreamingDataFromPrompt = async (
-  prompt: string,
-  onData: (data: string) => void,
+export interface Message {
+  role: "system" | "user" | "assistant"
+  content: string
+}
+
+export const useStreamingDataFromPrompt = async ({
+  prompt,
+  messages,
+  onData,
+  onDone,
+}: {
+  onData: (data: string) => void
+  prompt?: string
+  messages?: Message[]
   onDone?: () => void
-) => {
+}) => {
+  if (!prompt && !messages) {
+    throw new Error("Must provide a prompt or messages")
+  }
+
+  let payload = { messages: messages || [{ role: "user", content: prompt }] }
+
   const response = await fetch("/api/generate", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      prompt,
+      ...payload,
     }),
   })
   if (!response.ok) {
     throw new Error(response.statusText)
   }
+
+  console.log("response.body", response.body)
 
   // This data is a ReadableStream
   const stream = response.body
@@ -30,7 +49,7 @@ export const useStreamingDataFromPrompt = async (
   let done = false
   let responseString = ""
 
-  console.log("reading stream for " + prompt)
+  console.log("reading stream")
 
   while (!done) {
     const { value, done: doneReading } = await reader.read()

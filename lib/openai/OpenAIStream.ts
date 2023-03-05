@@ -38,7 +38,7 @@ export async function OpenChatGPTStream(payload: ChatGPTStreamPayload) {
     body: JSON.stringify(payload),
   })
 
-  console.log("got response")
+  console.log("got response", res.body)
 
   const stream = new ReadableStream({
     async start(controller) {
