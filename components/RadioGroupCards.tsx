@@ -7,11 +7,13 @@ const RadioGroupCards = ({
   options,
   selectedOption,
   onSelect,
+  variant,
 }: {
   label?: string
   options: string[]
   selectedOption?: string
   onSelect: (option: string) => void
+  variant?: "normal" | "large"
 }) => {
   return (
     <RadioGroup value={selectedOption} onChange={onSelect}>
@@ -34,20 +36,25 @@ const RadioGroupCards = ({
                     ? "border-transparent"
                     : "border-[rgba(255,255,255,.25)]",
                   active ? "border-indigo-500 ring-2 ring-indigo-500" : "",
-                  "relative bg-[rgba(0,0,0,.5)] flex cursor-pointer rounded-lg border-2 px-6 py-4 shadow-sm focus:outline-none"
+                  "relative bg-[rgba(0,0,0,.66)] flex cursor-pointer rounded-lg border-2 px-6 py-4 shadow-sm focus:outline-none"
                 )
               }
             >
               {({ checked, active }) => (
                 <>
                   <span className="flex flex-1">
-                    <span className="flex flex-col pr-4 text-lg">{option}</span>
+                    <span
+                      className={`flex flex-col  ${
+                        variant === "large" ? "text-2xl px-12" : "text-lg pr-4"
+                      }`}
+                    >
+                      {option}
+                    </span>
                   </span>
                   <CheckCircleIcon
-                    className={classNames(
-                      !checked ? "invisible" : "",
-                      "h-5 w-5 text-indigo-600"
-                    )}
+                    className={`text-indigo-600 ${checked ? "" : "invisible"} ${
+                      variant === "large" ? "h-8 w-8" : "h-5 w-5"
+                    }`}
                     aria-hidden="true"
                   />
                   <span
