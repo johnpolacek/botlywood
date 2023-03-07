@@ -9,7 +9,7 @@ import CharacterCard from "./CharacterCard"
 import NextButton from "./ui/NextButton"
 import { Character } from "./Types"
 import LoadingAnimation from "./LoadingAnimation"
-import { getRandomInitials } from "./util/string"
+import { getRandomInitials } from "./util/text"
 
 const StepCharacterSupporting = () => {
   const { logline, genre, characters, setCharacters } = useContext(AppContext)
@@ -61,8 +61,9 @@ const StepCharacterSupporting = () => {
       <div className="text-center">
         {numCharacters && (
           <Heading
-            children={`Supporting Character ${supportingCharacters.length + 1
-              } / ${numCharacters}`}
+            children={`Supporting Character ${
+              supportingCharacters.length + 1
+            } / ${numCharacters}`}
           />
         )}
       </div>

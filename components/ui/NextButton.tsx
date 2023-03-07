@@ -7,13 +7,10 @@ const NextButton = ({
 }) => {
   return (
     <button
+      disabled={disabled}
       onClick={onClick}
       type="submit"
-      className={`transition-all hover:scale-105 rounded-xl text-white font-medium text-xl sm:text-3xl py-4 pl-12 pr-16 mt-2 mb-4 ${
-        disabled
-          ? "bg-gray-600 opacity-50 pointer-events-none"
-          : "bg-indigo-600"
-      }`}
+      className="transition-all hover:scale-105 bg-indigo-600 disabled:bg-gray-600 disabled:opacity-50 rounded-xl text-white font-medium text-xl sm:text-3xl py-4 pl-12 pr-16 mt-2 mb-4"
     >
       <span className="inline-block relative">
         Next{" "}

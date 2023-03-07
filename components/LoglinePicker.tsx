@@ -1,8 +1,9 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import TextareaAutosize from "react-textarea-autosize"
 import { AppContext } from "./AppContext"
 import Heading from "./ui/Heading"
 import RadioGroupCards from "./RadioGroupCards"
+import FadeIn from "./ui/FadeIn"
 import LoadingAnimation from "./LoadingAnimation"
 import Modifiers from "./Modifiers"
 
@@ -12,7 +13,7 @@ const LoglinePicker: React.FC = () => {
   return (
     <div className="my-12 items-center sm:space-x-3 max-w-4xl mx-auto w-full min-h-[300px]">
       <label>
-        <>
+        <FadeIn animateUp={true}>
           <Heading>Choose a Plot Summary</Heading>
           {loglineOptions.length ? (
             <RadioGroupCards
@@ -34,7 +35,7 @@ const LoglinePicker: React.FC = () => {
             value={logline}
           />
           <Modifiers />
-        </>
+        </FadeIn>
       </label>
     </div>
   )

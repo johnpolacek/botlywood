@@ -38,7 +38,8 @@ const genres = [
 ]
 
 const GenrePicker: React.FC = () => {
-  const { genre, setGenre, setLoglineOptions } = useContext(AppContext)
+  const { genre, setGenre, loglineOptions, setLoglineOptions } =
+    useContext(AppContext)
 
   const onChangeGenre = async (genre: string) => {
     const prompt = `Generate 5 random plot ideas for a ${genre} movie in JSON format as an array of strings`
@@ -81,12 +82,13 @@ const GenrePicker: React.FC = () => {
           ))}
         </select>
         <button
+          disabled={genre !== "" && loglineOptions.length < 5}
           onClick={() => {
             const newGenre = genres[Math.floor(Math.random() * genres.length)]
             setGenre(newGenre)
             onChangeGenre(newGenre)
           }}
-          className="bg-indigo-500 mt-4 rounded-lg py-3 text-xl"
+          className="transition-all duration-500 bg-indigo-500 mt-4 rounded-lg py-3 text-xl disabled:bg-gray-600 disabled:opacity-80"
         >
           <RandomGraphic />
           <span>Pick Random</span>

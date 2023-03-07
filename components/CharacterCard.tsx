@@ -6,11 +6,9 @@ import RerollButton from "./ui/RerollButton"
 const CharacterCard = ({
   character,
   onReroll,
-  image,
 }: {
   character: Character
   onReroll?: () => void
-  image?: string
 }) => {
   const targetRef = useRef<HTMLHeadingElement>(null)
 
@@ -25,14 +23,17 @@ const CharacterCard = ({
 
   return (
     <div className="md:flex gap-8 border border-indigo-900 rounded-lg bg-[rgba(0,0,0,.75)] w-full p-8">
-      {
-        image ? (
-          <div className="w-full md:w-1/2 pb-8 md:pb-0">
-            <div className="w-full rounded overflow-hidden">
-              <img src={image} />
-            </div>
-          </div>) : (<div><LoadingAnimation /></div>)
-      }
+      {character.image ? (
+        <div className="w-full md:w-1/2 pb-8 md:pb-0">
+          <div className="w-full rounded overflow-hidden">
+            <img src={character.image} />
+          </div>
+        </div>
+      ) : (
+        <div className="w-full md:w-1/2 bg-gray-900 opacity-80">
+          <LoadingAnimation />
+        </div>
+      )}
       <div className="flex flex-col w-full">
         <div ref={targetRef} className="font-bold text-xl pb-2">
           {character.name}
@@ -40,7 +41,7 @@ const CharacterCard = ({
         {character.description ? (
           <>
             <div className="text-lg min-h-[72px]">{character.description}</div>
-            {onReroll && (
+            {character.image && onReroll && (
               <div className="text-center pt-8 pb-2">
                 <RerollButton onReroll={onReroll} />
               </div>
@@ -52,7 +53,7 @@ const CharacterCard = ({
           </div>
         )}
       </div>
-    </div >
+    </div>
   )
 }
 

@@ -10,7 +10,6 @@ const StepCharacters = () => {
 
   let characterStep = <LoadingAnimation />
   if (!characters?.hero) {
-    console.log("yo")
     characterStep = <StepCharacterHero />
   } else if (!characters?.villain) {
     characterStep = <StepCharacterVillain />

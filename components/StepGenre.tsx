@@ -18,10 +18,12 @@ const StepGenre = () => {
         <GenrePicker />
         {context.genre && <LoglinePicker />}
       </div>
-      <NextButton
-        onClick={onCompleteStep}
-        disabled={!context.genre || !context.logline}
-      />
+      {context.genre && (
+        <NextButton
+          onClick={onCompleteStep}
+          disabled={!context.genre || !context.logline}
+        />
+      )}
     </div>
   )
 }
