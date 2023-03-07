@@ -112,3 +112,18 @@ export const useResponseFromPrompt = async (prompt: string) => {
 
   return responseString
 }
+
+// use this hook to fetch data from a stream
+// and wait for the full result
+export const useImageResponseFromPrompt = async (prompt: string, numImages: number) => {
+  return await fetch("/api/generateImage", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      prompt,
+      n: numImages
+    }),
+  })
+}

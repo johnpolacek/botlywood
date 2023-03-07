@@ -2,7 +2,7 @@ import {
   OpenChatGPTStream,
   ChatGPTStreamPayload,
   Message,
-} from "../../lib/openai/OpenAIStream"
+} from "../../lib/openai/OpenAI"
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("Missing env var from OpenAI")

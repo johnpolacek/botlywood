@@ -10,6 +10,7 @@ const StepCharacters = () => {
 
   let characterStep = <LoadingAnimation />
   if (!characters?.hero) {
+    console.log("yo")
     characterStep = <StepCharacterHero />
   } else if (!characters?.villain) {
     characterStep = <StepCharacterVillain />
@@ -20,7 +21,7 @@ const StepCharacters = () => {
   }
 
   return (
-    <div className="relative z-10 max-w-3xl text-left mx-auto w-full min-h-[80vh]">
+    <div className="relative z-10 px-4 md:px-0 max-w-5xl text-left mx-auto w-full min-h-[80vh]">
       {characterStep}
     </div>
   )

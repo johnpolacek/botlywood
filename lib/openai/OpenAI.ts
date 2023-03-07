@@ -38,11 +38,7 @@ export async function OpenChatGPTStream(payload: ChatGPTStreamPayload) {
 
   const stream = new ReadableStream({
     async start(controller) {
-      console.log("open stream controller")
       const onParse = (event: ParsedEvent | ReconnectInterval) => {
-        if (!isStreaming) {
-          console.log("onParse")
-        }
         if (event.type === "event") {
           const data = event.data
           if (data === "[DONE]") {
@@ -64,9 +60,6 @@ export async function OpenChatGPTStream(payload: ChatGPTStreamPayload) {
             }
             const queue = encoder.encode(text)
             controller.enqueue(queue)
-            if (!isStreaming) {
-              console.log("streaming...")
-            }
             isStreaming = true
           } catch (e) {
             // maybe parse error
@@ -97,3 +90,47 @@ export async function OpenChatGPTStream(payload: ChatGPTStreamPayload) {
 
   return stream
 }
+
+interface Params {
+  prompt: string;
+  n?: number;
+  size?: string;
+  response_format?: string;
+  user?: string;
+}
+
+export async function generateImage({ prompt, n }: Params) {
+  const apiKey = process.env.OPENAI_API_KEY;
+  const params = {
+    prompt,
+    n,
+  };
+  const headers = {
+    Authorization: `Bearer ${apiKey}`,
+    "Content-Type": "application/json",
+  };
+  const req = {
+    method: "POST",
+    headers: headers,
+    body: JSON.stringify(params),
+  }
+
+  try {
+    const response = await fetch(
+      "https://api.openai.com/v1/images/generations",
+      req,
+    );
+
+    const result = await response.json();
+
+    if (response.ok) {
+      return result;
+    } else {
+      throw new Error(result.error || "Failed to generate image");
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to generate image");
+  }
+}
+

@@ -48,7 +48,7 @@ const StepCharacterVillain = () => {
   }
 
   return (
-    <div className="relative z-10 max-w-3xl text-left mx-auto grid gap-8 w-full">
+    <div className="relative z-10 text-left mx-auto grid gap-8 w-full">
       <div className="text-center">
         <Heading>Our Antagonist</Heading>
       </div>

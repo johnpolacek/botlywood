@@ -2,6 +2,7 @@ export type Character = {
   name: string
   description: string
   actor?: string
+  image?: string
 }
 
 export type Characters = {

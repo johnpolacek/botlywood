@@ -57,13 +57,12 @@ const StepCharacterSupporting = () => {
   }
 
   return (
-    <div className="relative z-10 max-w-3xl text-left mx-auto grid gap-8 w-full">
+    <div className="relative z-10 text-left mx-auto grid gap-8 w-full">
       <div className="text-center">
         {numCharacters && (
           <Heading
-            children={`Supporting Character ${
-              supportingCharacters.length + 1
-            } / ${numCharacters}`}
+            children={`Supporting Character ${supportingCharacters.length + 1
+              } / ${numCharacters}`}
           />
         )}
       </div>

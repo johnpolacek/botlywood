@@ -27,7 +27,8 @@ const StepTitle = () => {
           const titleOptions = JSON.parse(untruncateJson(titleStream))
           setTitles(titleOptions)
         } catch (error) {
-          console.error(error)
+          console.error(error, { titleStream })
+          generateTitles()
         }
       },
       onError: () => {
