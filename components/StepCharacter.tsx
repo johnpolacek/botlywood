@@ -8,11 +8,26 @@ import { Character } from "./Types"
 import LoadingAnimation from "./LoadingAnimation"
 import { getCharacterName, getCharacterImage } from "./util/ai"
 import FadeIn from "./ui/FadeIn"
+import wait from "waait"
 
-const StepCharacterHero = () => {
-  const { logline, genre, setCharacters } = useContext(AppContext)
+interface StepCharacter {
+  heading: string
+  characterType: string
+  onComplete: (character: Character) => void
+}
+
+const StepCharacter = ({
+  heading,
+  characterType,
+  onComplete,
+}: StepCharacter) => {
+  const { logline, genre } = useContext(AppContext)
   const [character, setCharacter] = useState<Character | null>(null)
   const [isStreaming, setIsStreaming] = useState<boolean>(false)
+
+  useEffect(() => {
+    createCharacter()
+  }, [])
 
   useEffect(() => {
     if (!isStreaming && character?.description) {
@@ -22,20 +37,16 @@ const StepCharacterHero = () => {
     }
   }, [!isStreaming && character?.description])
 
-  useEffect(() => {
-    createCharacter()
-  }, [])
-
   const createCharacter = async () => {
     setIsStreaming(true)
     const characterName = await getCharacterName({
       genre,
       logline,
-      characterType: "protagonist",
+      characterType,
     })
     setCharacter({ name: characterName, description: "" })
 
-    const promptHeroDesc = `Generate a 2 sentence character description for a protagonist named ${characterName} for a ${genre} movie based on the logline "${logline}"`
+    const promptHeroDesc = `Generate a 2 sentence character description for a ${characterType} named ${characterName} for a ${genre} movie based on the logline "${logline}"`
     await useStreamingDataFromPrompt({
       prompt: promptHeroDesc,
       onData: (description) => {
@@ -61,7 +72,7 @@ const StepCharacterHero = () => {
     <div className="relative z-10 text-left mx-auto grid gap-8 w-full">
       <FadeIn>
         <div className="text-center">
-          <Heading>Main Character</Heading>
+          <Heading>{heading}</Heading>
         </div>
       </FadeIn>
       {character ? (
@@ -71,18 +82,21 @@ const StepCharacterHero = () => {
       ) : (
         <LoadingAnimation />
       )}
-      <div className="text-center">
-        <NextButton
-          onClick={() => {
-            if (character) {
-              setCharacters({ hero: character })
-            }
-          }}
-          disabled={character?.image === ""}
-        />
-      </div>
+      {character && (
+        <div className="text-center">
+          <NextButton
+            onClick={() => {
+              onComplete(character)
+              wait(500).then(() => {
+                setCharacter(null)
+              })
+            }}
+            disabled={!character.image}
+          />
+        </div>
+      )}
     </div>
   )
 }
 
-export default StepCharacterHero
+export default StepCharacter

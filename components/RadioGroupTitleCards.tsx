@@ -1,9 +1,16 @@
+import { useEffect, useState, useContext } from "react"
+import { useResponseFromPrompt } from "../lib/openai/hooks"
+import { AppContext } from "./AppContext"
+import { loadGoogleFont } from "./util/text"
 import { RadioGroup } from "@headlessui/react"
 import { CheckCircleIcon } from "@heroicons/react/20/solid"
 import classNames from "classnames"
 import FadeIn from "./ui/FadeIn"
+import TitleFont from "./TitleFont"
+import { trimString } from "./util/text"
+import { TitleSelection } from "./Types"
 
-const RadioGroupCards = ({
+const RadioGroupTitleCards = ({
   label,
   options,
   selectedOption,
@@ -12,10 +19,35 @@ const RadioGroupCards = ({
   label?: string
   options: string[]
   selectedOption?: string
-  onSelect: (option: string) => void
+  onSelect: (titleSelection: TitleSelection) => void
 }) => {
+  const { genre, logline } = useContext(AppContext)
+  const [fonts, setFonts] = useState<string[]>([])
+  const [fontClasses, setFontClasses] = useState<string[]>([])
+
+  useEffect(() => {
+    generateFonts()
+  }, [])
+
+  const generateFonts = async () => {
+    const prompt = `You are an API for that will generate 5 different Google font family suggestions for a ${genre} movie. ${logline}. You must reply in JSON format like {fonts:["Open Sans","Roboto","Lato","Source Sans Pro","Poppins"]}`
+    const res = await useResponseFromPrompt(prompt)
+    const fontData = JSON.parse(res)
+    const newFonts = fontData.fonts.map((f: string) => trimString(f))
+    const newFontClasses = fontData.fonts.map((f: string) =>
+      loadGoogleFont(trimString(f))
+    )
+    setFonts(newFonts)
+    setFontClasses(newFontClasses)
+  }
+
+  const onChangeSelection = (option: string) => {
+    const index = options.indexOf(option)
+    onSelect({ title: option, font: fonts[index] })
+  }
+
   return (
-    <RadioGroup value={selectedOption} onChange={onSelect}>
+    <RadioGroup value={selectedOption} onChange={onChangeSelection}>
       {label && (
         <RadioGroup.Label className="text-base font-semibold leading-6 text-white">
           {label}
@@ -35,19 +67,21 @@ const RadioGroupCards = ({
                       ? "border-transparent"
                       : "border-[rgba(255,255,255,.25)]",
                     active ? "border-indigo-500 ring-2 ring-indigo-500" : "",
-                    "relative flex p-4 bg-[rgba(0,0,0,.66)] cursor-pointer rounded-lg border-2 shadow-sm focus:outline-none"
+                    "relative px-4 py-12 self-center flex bg-[rgba(0,0,0,.75)] cursor-pointer rounded-lg border-2 shadow-sm focus:outline-none"
                   )
                 }
               >
                 {({ checked, active }) => (
                   <>
-                    <span className="flex flex-1">
-                      <span className="flex flex-col text-lg pr-4">
-                        {option}
+                    <span className={`flex flex-1 justify-center`}>
+                      <span
+                        className={`flex flex-col text-4xl px-12 font-bold}`}
+                      >
+                        <TitleFont text={option} fontClass={fontClasses[i]} />
                       </span>
                     </span>
                     <CheckCircleIcon
-                      className={`text-indigo-200 h-5 w-5 ${
+                      className={`text-indigo-200 h-8 w-8 ${
                         checked ? "" : "invisible"
                       }`}
                       aria-hidden="true"
@@ -71,4 +105,4 @@ const RadioGroupCards = ({
   )
 }
 
-export default RadioGroupCards
+export default RadioGroupTitleCards

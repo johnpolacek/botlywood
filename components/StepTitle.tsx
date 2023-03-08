@@ -2,53 +2,69 @@ import React, { useContext, useEffect, useState } from "react"
 import { AppContext } from "./AppContext"
 import Heading from "./ui/Heading"
 import { useStreamingDataFromPrompt } from "../lib/openai/hooks"
-import untruncateJson from "untruncate-json"
 import LoadingAnimation from "./LoadingAnimation"
-import RadioGroupCards from "./RadioGroupCards"
+import RadioGroupTitleCards from "./RadioGroupTitleCards"
+import untruncateJson from "untruncate-json"
+import { TitleSelection } from "./Types"
 
 const StepTitle = () => {
-  const { genre } = useContext(AppContext)
+  const { genre, logline, title, setTitle, setTitleFont } =
+    useContext(AppContext)
 
   const [titles, setTitles] = useState<string[]>([])
-  const [title, setTitle] = useState<string>("")
 
   useEffect(() => {
     generateTitles()
   }, [])
 
   const generateTitles = async () => {
-    const prompt = `Generate 7 different titles for a ${genre} movie in JSON format as an array of strings`
+    const prompt = `You are an API for that will generate 5 different titles for a ${genre} movie: ${logline}. You must reply in JSON format like {titles:["title","another","one more","other one","last"]}`
     setTitles([])
 
     await useStreamingDataFromPrompt({
       prompt,
       onData: (titleStream) => {
         try {
-          const titleOptions = JSON.parse(untruncateJson(titleStream))
-          setTitles(titleOptions)
+          const data = JSON.parse(untruncateJson(titleStream))
+          if (data.titles?.length) {
+            const newTitles = data.titles
+              .map((t: string) => (t.includes(": A ") ? t.split(": A ")[1] : t))
+              .map((t: string) =>
+                t.includes(": The ") ? t.split(": The ")[0] : t
+              )
+            setTitles(newTitles)
+          }
         } catch (error) {
-          console.error(error, { titleStream })
-          generateTitles()
+          // swallow errors console.error(error, { titleStream })
         }
       },
       onError: () => {
         console.log("Title generation failed, retry...")
         generateTitles()
       },
+      onDone: () => {
+        if (titles.length === 5) {
+          console.log("onDone success")
+        } else {
+          console.log("onDone error?", titles)
+          // generateTitles()
+          // retry?
+        }
+      },
     })
   }
 
   return (
-    <div className="relative z-10 max-w-3xl text-left mx-auto text-center">
+    <div className="relative z-10 max-w-4xl text-center mx-auto">
       <Heading>Choose a Title</Heading>
       {titles.length ? (
-        <RadioGroupCards
+        <RadioGroupTitleCards
           selectedOption={title}
-          onSelect={(option) => {
-            setTitle(option)
+          onSelect={(titleSelection: TitleSelection) => {
+            setTitle(titleSelection.title)
+            setTitleFont(titleSelection.font)
           }}
           options={titles}
-          variant="large"
         />
       ) : (
         <LoadingAnimation />
@@ -57,4 +73,4 @@ const StepTitle = () => {
   )
 }
 
-export default StepTitle
+export default React.memo(StepTitle)

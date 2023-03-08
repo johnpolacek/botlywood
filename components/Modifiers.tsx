@@ -45,7 +45,7 @@ export default function Modifiers() {
         <ModifierButton>Add a Twist</ModifierButton>
         <ModifierButton modifier="spice it up">Spicier</ModifierButton>
         <ModifierButton modifier="make it weirder">Weirder</ModifierButton>
-        <ModifierButton modifier="make it funnier">Weirder</ModifierButton>
+        <ModifierButton modifier="make it funnier">Funnier</ModifierButton>
         <ModifierButton modifier="bigger and bolder">Bigger</ModifierButton>
         <ModifierButton modifier="with smaller stakes">Smaller</ModifierButton>
         <ModifierButton>Darker</ModifierButton>

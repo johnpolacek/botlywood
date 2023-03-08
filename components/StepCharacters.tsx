@@ -1,18 +1,33 @@
 import React, { useContext } from "react"
 import { AppContext } from "./AppContext"
-import StepCharacterHero from "./StepCharacterHero"
-import StepCharacterVillain from "./StepCharacterVillain"
+import StepCharacter from "./StepCharacter"
 import StepCharacterSupporting from "./StepCharacterSupporting"
 import LoadingAnimation from "./LoadingAnimation"
 
 const StepCharacters = () => {
-  const { characters, incrementStep } = useContext(AppContext)
+  const { characters, setCharacters, incrementStep } = useContext(AppContext)
 
   let characterStep = <LoadingAnimation />
   if (!characters?.hero) {
-    characterStep = <StepCharacterHero />
+    characterStep = (
+      <StepCharacter
+        heading="Main Character"
+        characterType="protagonist"
+        onComplete={(hero) => {
+          setCharacters({ hero })
+        }}
+      />
+    )
   } else if (!characters?.villain) {
-    characterStep = <StepCharacterVillain />
+    characterStep = (
+      <StepCharacter
+        heading="The Antagonist"
+        characterType="villain"
+        onComplete={(villain) => {
+          setCharacters({ ...characters, villain })
+        }}
+      />
+    )
   } else if (characters.hero && characters.villain && !characters.supporting) {
     characterStep = <StepCharacterSupporting />
   } else if (characters.hero && characters.villain && characters.supporting) {

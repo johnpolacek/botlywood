@@ -17,6 +17,8 @@ export type AppContextType = {
   incrementStep: () => void
   title: string
   setTitle: (title: string) => void
+  titleFont: string
+  setTitleFont: (title: string) => void
   genre: string
   setGenre: (genre: string) => void
   logline: string
@@ -31,4 +33,9 @@ export type AppContextType = {
   isSubmitted: boolean
   setIsSubmitted: (isSubmitted: boolean) => void
   generatedId?: string
+}
+
+export type TitleSelection = {
+  title: string
+  font: string
 }

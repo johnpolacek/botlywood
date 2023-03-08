@@ -7,31 +7,111 @@ export function getRandomInitials() {
   return `${firstInitial} ${lastInitial}`
 }
 
-export async function loadGoogleFont(fontFamily: string): Promise<string> {
-  // Generate URL for Google Fonts API request
-  const url = `https://fonts.googleapis.com/css?family=${encodeURIComponent(
-    fontFamily
-  )}`
+export function trimString(str: string): string {
+  // Define a regular expression to match spaces and punctuation
+  const regex =
+    /^[ \t\n\r\f\v!"#$%&'()*+,\-./:;<=>?@\[\\\]^_`{|}~]+|[ \t\n\r\f\v!"#$%&'()*+,\-./:;<=>?@\[\\\]^_`{|}~]+$/g
 
-  // Load the font asynchronously
-  await new Promise<void>((resolve, reject) => {
-    const link = document.createElement("link")
-    link.href = url
-    link.rel = "stylesheet"
+  // Use the regular expression to replace any spaces or punctuation at the beginning or end of the string
+  return str.replace(regex, "")
+}
 
-    link.onload = () => {
-      resolve()
-    }
+export function loadGoogleFont(fontName: string): string {
+  console.log({ fontName })
+  const fontUrl = `https://fonts.googleapis.com/css2?family=${fontName.replace(
+    / /g,
+    "+"
+  )}&display=swap`
+  const className = `font-${fontName.replace(/ /g, "-").toLowerCase()}`
 
-    link.onerror = () => {
-      reject(new Error(`Failed to load font: ${fontFamily}`))
-    }
+  const link = document.createElement("link")
+  link.href = fontUrl
+  link.rel = "stylesheet"
+  link.onload = () => {
+    document.documentElement.classList.add(className)
+  }
 
-    document.head.appendChild(link)
-  })
+  document.head.appendChild(link)
 
-  // Generate class name for the font
-  const className = `font-${fontFamily.replace(/ /g, "-").toLowerCase()}`
+  const style = document.createElement("style")
+  style.type = "text/css"
+  style.appendChild(
+    document.createTextNode(
+      `.${className} { font-family: '${fontName}', sans-serif; }`
+    )
+  )
+  document.head.appendChild(style)
 
   return className
+}
+
+const lightColors: string[] = [
+  "aliceblue",
+  "lavender",
+  "mistyrose",
+  "ivory",
+  "seashell",
+  "floralwhite",
+  "ghostwhite",
+  "honeydew",
+  "lemonchiffon",
+  "beige",
+  "linen",
+  "lightcyan",
+  "mintcream",
+  "oldlace",
+  "papayawhip",
+  "cornsilk",
+  "snow",
+  "antiquewhite",
+  "thistle",
+  "lightgoldenrodyellow",
+  "lavenderblush",
+  "gainsboro",
+  "lightyellow",
+  "peachpuff",
+  "wheat",
+  "lightpink",
+  "azure",
+  "mistyrose",
+  "honeydew",
+  "lavender",
+  "powderblue",
+  "blanchedalmond",
+  "lightcoral",
+  "lavendergrey",
+  "cornflowerblue",
+  "lemonchiffon",
+  "mintcream",
+  "linen",
+  "mistyrose",
+  "antiquewhite",
+  "ghostwhite",
+  "bisque",
+  "pink",
+  "lavenderblush",
+  "snow",
+  "oldlace",
+  "seashell",
+  "ivory",
+  "white",
+  "honeydew",
+  "lightyellow",
+  "beige",
+  "floralwhite",
+  "papayawhip",
+  "peachpuff",
+  "moccasin",
+  "navajowhite",
+  "wheat",
+  "blanchedalmond",
+  "lemonchiffon",
+  "khaki",
+  "palegoldenrod",
+  "lightgoldenrodyellow",
+]
+
+export function getLightOnDarkTextColor(): string {
+  const randomIndex = Math.floor(Math.random() * lightColors.length)
+  return lightColors[randomIndex]
 }

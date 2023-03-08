@@ -7,6 +7,8 @@ const AppContext = createContext<AppContextType>({
   incrementStep: () => {},
   title: "",
   setTitle: () => {},
+  titleFont: "",
+  setTitleFont: () => {},
   genre: "",
   setGenre: () => {},
   logline: "",
@@ -28,6 +30,7 @@ const AppContextProvider: React.FC<{
   const [state, setState] = useState<{
     step: number
     title: string
+    titleFont: string
     genre: string
     logline: string
     loglineOptions: string[]
@@ -38,6 +41,7 @@ const AppContextProvider: React.FC<{
   }>({
     step: 0,
     title: "",
+    titleFont: "",
     genre: "",
     logline: "",
     loglineOptions: [],
@@ -57,6 +61,10 @@ const AppContextProvider: React.FC<{
 
   const setTitle = (newTitle: string) => {
     setState((prevState) => ({ ...prevState, title: newTitle }))
+  }
+
+  const setTitleFont = (newTitleFont: string) => {
+    setState((prevState) => ({ ...prevState, titleFont: newTitleFont }))
   }
 
   const setGenre = (newGenre: string) => {
@@ -104,6 +112,8 @@ const AppContextProvider: React.FC<{
         incrementStep,
         title: state.title,
         setTitle,
+        titleFont: state.titleFont,
+        setTitleFont,
         genre: state.genre,
         setGenre,
         logline: state.logline,
