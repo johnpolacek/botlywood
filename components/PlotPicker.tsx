@@ -7,21 +7,21 @@ import FadeIn from "./ui/FadeIn"
 import LoadingAnimation from "./LoadingAnimation"
 import Modifiers from "./Modifiers"
 
-const LoglinePicker: React.FC = () => {
-  const { logline, setLogline, loglineOptions } = useContext(AppContext)
+const PlotPicker: React.FC = () => {
+  const { plot, setPlot, plotOptions } = useContext(AppContext)
 
   return (
     <div className="my-12 items-center sm:space-x-3 max-w-4xl mx-auto w-full min-h-[300px]">
       <label>
         <FadeIn animateUp={true}>
           <Heading>Choose a Plot Summary</Heading>
-          {loglineOptions.length ? (
+          {plotOptions.length ? (
             <RadioGroupCards
-              selectedOption={logline}
+              selectedOption={plot}
               onSelect={(option) => {
-                setLogline(option)
+                setPlot(option)
               }}
-              options={loglineOptions}
+              options={plotOptions}
             />
           ) : (
             <LoadingAnimation />
@@ -30,9 +30,9 @@ const LoglinePicker: React.FC = () => {
           <TextareaAutosize
             className="w-full rounded-lg text-lg mt-4 text-black px-8 py-6"
             onChange={(e) => {
-              setLogline(e.target.value)
+              setPlot(e.target.value)
             }}
-            value={logline}
+            value={plot}
           />
           <Modifiers />
         </FadeIn>
@@ -41,4 +41,4 @@ const LoglinePicker: React.FC = () => {
   )
 }
 
-export default LoglinePicker
+export default PlotPicker

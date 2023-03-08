@@ -11,6 +11,10 @@ export type Characters = {
   supporting?: Character[]
 }
 
+export type ColorScheme = {
+  main: string
+}
+
 export type AppContextType = {
   step: number
   setStep: (newStep: number) => void
@@ -19,12 +23,14 @@ export type AppContextType = {
   setTitle: (title: string) => void
   titleFont: string
   setTitleFont: (title: string) => void
+  colorScheme: ColorScheme | null
+  setColorScheme: (colorScheme: ColorScheme) => void
   genre: string
   setGenre: (genre: string) => void
-  logline: string
-  setLogline: (logline: string) => void
-  loglineOptions: string[]
-  setLoglineOptions: (loglineOptions: string[]) => void
+  plot: string
+  setPlot: (plot: string) => void
+  plotOptions: string[]
+  setPlotOptions: (plotOptions: string[]) => void
   characters?: Characters
   setCharacters: (characters: Characters) => void
   acts: string[]
@@ -38,4 +44,5 @@ export type AppContextType = {
 export type TitleSelection = {
   title: string
   font: string
+  color: string
 }

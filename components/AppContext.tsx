@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react"
-import { Characters, AppContextType } from "./Types"
+import { Characters, AppContextType, ColorScheme } from "./Types"
 
 const AppContext = createContext<AppContextType>({
   step: 0,
@@ -9,12 +9,14 @@ const AppContext = createContext<AppContextType>({
   setTitle: () => {},
   titleFont: "",
   setTitleFont: () => {},
+  colorScheme: null,
+  setColorScheme: () => {},
   genre: "",
   setGenre: () => {},
-  logline: "",
-  setLogline: () => {},
-  loglineOptions: [],
-  setLoglineOptions: () => {},
+  plot: "",
+  setPlot: () => {},
+  plotOptions: [],
+  setPlotOptions: () => {},
   acts: [],
   setActs: () => {},
   characters: undefined,
@@ -31,9 +33,10 @@ const AppContextProvider: React.FC<{
     step: number
     title: string
     titleFont: string
+    colorScheme: ColorScheme | null
     genre: string
-    logline: string
-    loglineOptions: string[]
+    plot: string
+    plotOptions: string[]
     characters: Characters | undefined
     acts: string[]
     isSubmitted: boolean
@@ -42,9 +45,10 @@ const AppContextProvider: React.FC<{
     step: 0,
     title: "",
     titleFont: "",
+    colorScheme: null,
     genre: "",
-    logline: "",
-    loglineOptions: [],
+    plot: "",
+    plotOptions: [],
     characters: undefined,
     acts: [],
     isSubmitted: false,
@@ -67,18 +71,22 @@ const AppContextProvider: React.FC<{
     setState((prevState) => ({ ...prevState, titleFont: newTitleFont }))
   }
 
+  const setColorScheme = (newColorScheme: ColorScheme) => {
+    setState((prevState) => ({ ...prevState, colorScheme: newColorScheme }))
+  }
+
   const setGenre = (newGenre: string) => {
     setState((prevState) => ({ ...prevState, genre: newGenre }))
   }
 
-  const setLogline = (newLogline: string) => {
-    setState((prevState) => ({ ...prevState, logline: newLogline }))
+  const setPlot = (newPlot: string) => {
+    setState((prevState) => ({ ...prevState, plot: newPlot }))
   }
 
-  const setLoglineOptions = (newLoglineOptions: string[]) => {
+  const setPlotOptions = (newPlotOptions: string[]) => {
     setState((prevState) => ({
       ...prevState,
-      loglineOptions: newLoglineOptions,
+      plotOptions: newPlotOptions,
     }))
   }
 
@@ -116,10 +124,10 @@ const AppContextProvider: React.FC<{
         setTitleFont,
         genre: state.genre,
         setGenre,
-        logline: state.logline,
-        setLogline,
-        loglineOptions: state.loglineOptions,
-        setLoglineOptions,
+        plot: state.plot,
+        setPlot,
+        plotOptions: state.plotOptions,
+        setPlotOptions,
         characters: state.characters,
         setCharacters,
         acts: state.acts,

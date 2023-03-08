@@ -34,7 +34,6 @@ export function loadGoogleFont(fontName: string): string {
   document.head.appendChild(link)
 
   const style = document.createElement("style")
-  style.type = "text/css"
   style.appendChild(
     document.createTextNode(
       `.${className} { font-family: '${fontName}', sans-serif; }`

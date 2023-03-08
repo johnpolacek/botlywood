@@ -17,7 +17,7 @@ const StepActs = () => {
     const getTitle = async () => {
       const prompt = `Generate a movie title for ${
         context.genre
-      } movie based on the logline "${context.logline}" ${
+      } movie based on this plot "${context.plot}" ${
         context.acts ? "and three acts of " + context.acts.join(", ") : ""
       }`
       const title = await useResponseFromPrompt(prompt)
@@ -35,7 +35,7 @@ const StepActs = () => {
   const onReroll = async (e: React.SyntheticEvent) => {
     e.preventDefault()
 
-    const prompt = `Generate 3 acts for a ${context.genre} movie based on the logline "${context.logline}". Respond in JSON format as an array of strings`
+    const prompt = `Generate 3 acts for a ${context.genre} movie based on the plot "${context.plot}". Respond in JSON format as an array of strings`
     const actsString = await useResponseFromPrompt(prompt)
 
     if (actsString) {
@@ -76,7 +76,7 @@ const StepActs = () => {
             width="120"
             height="120"
             src="/loading.svg"
-            alt="Loading loglines"
+            alt="Loading plots"
           />
         </div>
       )}
@@ -84,9 +84,7 @@ const StepActs = () => {
         <button
           onClick={onCompleteStep}
           className={`bg-indigo-600 rounded-xl text-white font-medium text-xl sm:text-3xl py-4 pl-12 pr-16 mt-2 mb-4 ${
-            context.genre && context.logline
-              ? ""
-              : "opacity-0 pointer-events-none"
+            context.genre && context.plot ? "" : "opacity-0 pointer-events-none"
           }`}
         >
           <span className="inline-block relative">

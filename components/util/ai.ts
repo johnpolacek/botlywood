@@ -24,14 +24,14 @@ export const getCharacterImage = async ({
 
 export const getCharacterName = async ({
   genre,
-  logline,
+  plot,
   characterType,
 }: {
   genre: string
-  logline: string
+  plot: string
   characterType: string
 }) => {
-  const prompt = `Generate a character name with the initials ${getRandomInitials()} for a ${characterType} for a ${genre} story with the plot of "${logline}". Only respond with the name, nothing else.`
+  const prompt = `Generate a character name with the initials ${getRandomInitials()} for a ${characterType} for a ${genre} story with the plot of "${plot}". Only respond with the name, nothing else.`
   const name = await useResponseFromPrompt(prompt)
   return name.trim().replace(/\.$/, "")
 }

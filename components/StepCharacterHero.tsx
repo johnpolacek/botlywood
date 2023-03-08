@@ -10,7 +10,7 @@ import { getCharacterName, getCharacterImage } from "./util/ai"
 import FadeIn from "./ui/FadeIn"
 
 const StepCharacterHero = () => {
-  const { logline, genre, setCharacters } = useContext(AppContext)
+  const { plot, genre, setCharacters } = useContext(AppContext)
   const [character, setCharacter] = useState<Character | null>(null)
   const [isStreaming, setIsStreaming] = useState<boolean>(false)
 
@@ -30,12 +30,12 @@ const StepCharacterHero = () => {
     setIsStreaming(true)
     const characterName = await getCharacterName({
       genre,
-      logline,
+      plot,
       characterType: "protagonist",
     })
     setCharacter({ name: characterName, description: "" })
 
-    const promptHeroDesc = `Generate a 2 sentence character description for a protagonist named ${characterName} for a ${genre} movie based on the logline "${logline}"`
+    const promptHeroDesc = `Generate a 2 sentence character description for a protagonist named ${characterName} for a ${genre} movie based on the plot "${plot}"`
     await useStreamingDataFromPrompt({
       prompt: promptHeroDesc,
       onData: (description) => {

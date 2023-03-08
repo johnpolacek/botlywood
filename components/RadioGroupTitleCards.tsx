@@ -21,16 +21,26 @@ const RadioGroupTitleCards = ({
   selectedOption?: string
   onSelect: (titleSelection: TitleSelection) => void
 }) => {
-  const { genre, logline } = useContext(AppContext)
+  const { genre, plot } = useContext(AppContext)
   const [fonts, setFonts] = useState<string[]>([])
   const [fontClasses, setFontClasses] = useState<string[]>([])
+  const [colors, setColors] = useState<string[]>([])
 
   useEffect(() => {
-    generateFonts()
+    try {
+      generateFonts()
+    } catch {
+      console.log("Could not generate title fonts.")
+    }
+    try {
+      generateColors()
+    } catch {
+      console.log("Could not generate title colors.")
+    }
   }, [])
 
   const generateFonts = async () => {
-    const prompt = `You are an API for that will generate 5 different Google font family suggestions for a ${genre} movie. ${logline}. You must reply in JSON format like {fonts:["Open Sans","Roboto","Lato","Source Sans Pro","Poppins"]}`
+    const prompt = `You are an API for that will generate 5 different Google font family suggestions for a ${genre} movie. ${plot}. You must reply in JSON format like {fonts:["Open Sans","Roboto","Lato","Source Sans Pro","Poppins"]}`
     const res = await useResponseFromPrompt(prompt)
     const fontData = JSON.parse(res)
     const newFonts = fontData.fonts.map((f: string) => trimString(f))
@@ -41,9 +51,22 @@ const RadioGroupTitleCards = ({
     setFontClasses(newFontClasses)
   }
 
+  const generateColors = async () => {
+    const colorPrompt = `You are an API for that will generate 5 different css color names for the title of a ${genre} movie. The text colors should not be white but should still look good on a dark background. You must reply in JSON format like {colors:["khaki","ivory","pink","lightcoral","honeydew"]}`
+    const resColors = await useResponseFromPrompt(colorPrompt)
+    try {
+      const colorData = JSON.parse(resColors)
+      const newColors = colorData.colors
+      console.log({ newColors })
+      setColors(newColors)
+    } catch (error) {
+      console.error("Error parsing color data:", error)
+    }
+  }
+
   const onChangeSelection = (option: string) => {
     const index = options.indexOf(option)
-    onSelect({ title: option, font: fonts[index] })
+    onSelect({ title: option, font: fonts[index], color: colors[index] })
   }
 
   return (
@@ -77,7 +100,11 @@ const RadioGroupTitleCards = ({
                       <span
                         className={`flex flex-col text-4xl px-12 font-bold}`}
                       >
-                        <TitleFont text={option} fontClass={fontClasses[i]} />
+                        <TitleFont
+                          text={option}
+                          fontClass={fontClasses[i]}
+                          color={colors ? colors[i] : "white"}
+                        />
                       </span>
                     </span>
                     <CheckCircleIcon

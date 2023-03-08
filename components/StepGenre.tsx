@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import { AppContext } from "./AppContext"
 import GenrePicker from "./GenrePicker"
-import LoglinePicker from "./LoglinePicker"
+import PlotPicker from "./PlotPicker"
 import NextButton from "./ui/NextButton"
 
 const StepGenre = () => {
@@ -16,12 +16,12 @@ const StepGenre = () => {
     <div className="relative z-10">
       <div className="min-h-[300px]">
         <GenrePicker />
-        {context.genre && <LoglinePicker />}
+        {context.genre && <PlotPicker />}
       </div>
       {context.genre && (
         <NextButton
           onClick={onCompleteStep}
-          disabled={!context.genre || !context.logline}
+          disabled={!context.genre || !context.plot}
         />
       )}
     </div>

@@ -12,7 +12,7 @@ import LoadingAnimation from "./LoadingAnimation"
 import { getRandomInitials } from "./util/text"
 
 const StepCharacterVillain = () => {
-  const { logline, genre, characters, setCharacters } = useContext(AppContext)
+  const { plot, genre, characters, setCharacters } = useContext(AppContext)
   const [villain, setVillain] = useState<Character | null>(null)
 
   // can get celebrity images from https://www.themoviedb.org/documentation/api
@@ -22,13 +22,13 @@ const StepCharacterVillain = () => {
   }, [])
 
   const createVillain = async () => {
-    const promptVillainName = `Generate a character name with the initials ${getRandomInitials()} for a villain character in a ${genre} story with the plot of "${logline}". Only respond with the name, nothing else.`
+    const promptVillainName = `Generate a character name with the initials ${getRandomInitials()} for a villain character in a ${genre} story with the plot of "${plot}". Only respond with the name, nothing else.`
     let villainName = await useResponseFromPrompt(promptVillainName)
     console.log({ villainName })
     villainName = villainName.trim().replace(/\.$/, "")
     setVillain({ name: villainName, description: "" })
 
-    const promptVillainDesc = `Generate a 2 sentence character description for a villain character named ${villainName} for a ${genre} movie based on the logline "${logline}"`
+    const promptVillainDesc = `Generate a 2 sentence character description for a villain character named ${villainName} for a ${genre} movie based on the plot "${plot}"`
     await useStreamingDataFromPrompt({
       prompt: promptVillainDesc,
       onData: (description) => {

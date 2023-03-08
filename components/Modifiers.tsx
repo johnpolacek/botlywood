@@ -4,16 +4,16 @@ import { useStreamingDataFromPrompt } from "../lib/openai/hooks"
 import LoadingAnimation from "./LoadingAnimation"
 
 export default function Modifiers() {
-  const { genre, logline, setLogline } = useContext(AppContext)
+  const { genre, plot, setPlot } = useContext(AppContext)
   const [isStreaming, setIsStreaming] = useState<boolean>(false)
 
   const modify = (modifier: string) => {
     setIsStreaming(true)
-    const prompt = `Rewrite plot idea for a ${genre} movie that has a very similar plot as "${logline}" but ${modifier}. Make the response be three sentences or less.`
+    const prompt = `Rewrite plot idea for a ${genre} movie that has a very similar plot as "${plot}" but ${modifier}. Make the response be three sentences or less.`
     useStreamingDataFromPrompt({
       prompt,
-      onData: (newLogline) => {
-        setLogline(newLogline)
+      onData: (newPlot) => {
+        setPlot(newPlot)
       },
       onDone: () => {
         setIsStreaming(false)
@@ -29,7 +29,7 @@ export default function Modifiers() {
     modifier?: string
   }) => (
     <button
-      disabled={isStreaming || !logline}
+      disabled={isStreaming || !plot}
       onClick={() => {
         modify(modifier || children.toLowerCase())
       }}

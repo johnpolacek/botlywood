@@ -38,21 +38,19 @@ const genres = [
 ]
 
 const GenrePicker: React.FC = () => {
-  const { genre, setGenre, loglineOptions, setLoglineOptions } =
+  const { genre, setGenre, plotOptions, setPlotOptions } =
     useContext(AppContext)
 
   const onChangeGenre = async (genre: string) => {
     const prompt = `Generate 5 random plot ideas for a ${genre} movie in JSON format as an array of strings`
-    setLoglineOptions([])
+    setPlotOptions([])
 
     await useStreamingDataFromPrompt({
       prompt,
-      onData: (loglineOptionsString) => {
+      onData: (plotOptionsString) => {
         try {
-          const loglineOptions = JSON.parse(
-            untruncateJson(loglineOptionsString)
-          )
-          setLoglineOptions(loglineOptions)
+          const plotOptions = JSON.parse(untruncateJson(plotOptionsString))
+          setPlotOptions(plotOptions)
         } catch (error) {
           console.error(error)
         }
@@ -82,7 +80,7 @@ const GenrePicker: React.FC = () => {
           ))}
         </select>
         <button
-          disabled={genre !== "" && loglineOptions.length < 5}
+          disabled={genre !== "" && plotOptions.length < 5}
           onClick={() => {
             const newGenre = genres[Math.floor(Math.random() * genres.length)]
             setGenre(newGenre)

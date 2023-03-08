@@ -21,7 +21,7 @@ const StepCharacter = ({
   characterType,
   onComplete,
 }: StepCharacter) => {
-  const { logline, genre } = useContext(AppContext)
+  const { plot, genre } = useContext(AppContext)
   const [character, setCharacter] = useState<Character | null>(null)
   const [isStreaming, setIsStreaming] = useState<boolean>(false)
 
@@ -41,12 +41,12 @@ const StepCharacter = ({
     setIsStreaming(true)
     const characterName = await getCharacterName({
       genre,
-      logline,
+      plot,
       characterType,
     })
     setCharacter({ name: characterName, description: "" })
 
-    const promptHeroDesc = `Generate a 2 sentence character description for a ${characterType} named ${characterName} for a ${genre} movie based on the logline "${logline}"`
+    const promptHeroDesc = `Generate a 2 sentence character description for a ${characterType} named ${characterName} for a ${genre} movie based on the plot "${plot}"`
     await useStreamingDataFromPrompt({
       prompt: promptHeroDesc,
       onData: (description) => {
