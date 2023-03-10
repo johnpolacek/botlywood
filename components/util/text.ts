@@ -20,6 +20,17 @@ export function getFontClassFromName(name: string) {
   return `font-${name.replace(/ /g, "-").toLowerCase()}`
 }
 
+export function formatTitle(title: string) {
+  const removePunctuation = title.replace(/[^\w\s-]/g, "")
+  const replaceHyphens = removePunctuation.replace(/-/g, " ")
+  const titleCase = replaceHyphens
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ")
+  return titleCase
+}
+
 export function loadGoogleFont(fontName: string): string {
   console.log({ fontName })
   const fontUrl = `https://fonts.googleapis.com/css2?family=${fontName.replace(

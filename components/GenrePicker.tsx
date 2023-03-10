@@ -8,38 +8,8 @@ import untruncateJson from "untruncate-json"
 import Heading from "./ui/Heading"
 import RandomGraphic from "./ui/graphics/Random"
 import NextButton from "./ui/NextButton"
-
-const genres = [
-  "Action",
-  "Adventure",
-  "Animation",
-  "Biopic",
-  "Classic Cinema",
-  "Comedy",
-  "Crime",
-  "Disaster",
-  "Family",
-  "Fantasy",
-  "Hallmark",
-  "Historical",
-  "Holiday",
-  "Horror",
-  "Marvel Cinematic Universe",
-  "Martial Arts",
-  "Musical",
-  "Mystery",
-  "Noir",
-  "Paranormal",
-  "Romance",
-  "Romantic Comedy",
-  "Science Fiction",
-  "Spy",
-  "Superhero",
-  "Thriller",
-  "Urban",
-  "War",
-  "Western",
-]
+import { GENRES } from "./util/constants"
+import { formatTitle } from "./util/text"
 
 const GenrePicker: React.FC = () => {
   const [genreInput, setGenreInput] = useState<string>("")
@@ -50,7 +20,8 @@ const GenrePicker: React.FC = () => {
   useEffect(() => {}, [genre])
 
   const generatePlot = async () => {
-    const prompt = `Generate 5 random plot ideas for a ${genre} movie in JSON format as an array of strings`
+    const prompt = `Generate 5 random plot ideas for a ${genreInput} movie in JSON format as an array of strings`
+    console.log(prompt)
     setPlotOptions([])
 
     await useStreamingDataFromPrompt({
@@ -82,14 +53,14 @@ const GenrePicker: React.FC = () => {
           }}
         >
           <option value="">Choose a Genre...</option>
-          {genres.map((g) => (
+          {GENRES.map((g) => (
             <option key={g}>{g}</option>
           ))}
         </select>
         <button
           disabled={genre !== "" && plotOptions.length < 5}
           onClick={() => {
-            const newGenre = genres[Math.floor(Math.random() * genres.length)]
+            const newGenre = GENRES[Math.floor(Math.random() * GENRES.length)]
             setGenreInput(newGenre)
           }}
           className="transition-all duration-500 bg-indigo-500 mt-4 rounded-lg py-3 text-xl disabled:bg-gray-600 disabled:opacity-80"
@@ -100,9 +71,10 @@ const GenrePicker: React.FC = () => {
         <button
           disabled={genre !== "" && plotOptions.length < 5}
           onClick={() => {
-            const hybridGenres = genres
-              .sort(() => Math.random() - 0.5)
-              .slice(0, 2)
+            const hybridGenres = GENRES.sort(() => Math.random() - 0.5).slice(
+              0,
+              2
+            )
             let hybrid = hybridGenres.join(" ")
             if (hybrid === "War Crime") {
               hybrid = "War Heist Caper"
@@ -119,9 +91,9 @@ const GenrePicker: React.FC = () => {
           onClick={async () => {
             setGenreInput("")
             const newGenre = await useResponseFromPrompt(
-              `Respond with a suggestion for an unusual or very niche movie genre. Do not reply with any punctuation, just the suggestion`
+              `Respond with a suggestion for an unusual or very niche movie genre in 3 words or less. Do not reply with any punctuation, just the suggestion`
             )
-            setGenreInput(newGenre.replace(/^\d+\.\s/, ""))
+            setGenreInput(formatTitle(newGenre.replace(/^\d+\.\s/, "")))
           }}
           className="transition-all duration-500 bg-blue-600 rounded-lg py-3 text-xl disabled:bg-gray-600 disabled:opacity-80"
         >
@@ -145,6 +117,7 @@ const GenrePicker: React.FC = () => {
           disabled={!genreInput}
           onClick={() => {
             setGenre(genreInput)
+            generatePlot()
           }}
         />
       )}

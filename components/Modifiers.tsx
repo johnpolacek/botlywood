@@ -25,6 +25,7 @@ export default function Modifiers({
             modifier={modifier.modifier}
             disabled={disabled}
             onModify={onModify}
+            key={modifier.label}
           >
             {modifier.label}
           </ModifierButton>
