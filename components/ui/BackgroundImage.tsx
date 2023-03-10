@@ -7,7 +7,8 @@ import { GENRES } from "../util/constants"
 export default function BackgroundImage() {
   const { genre, plot } = useContext(AppContext)
 
-  let imgUrl = `/botlywood-${Math.floor(Math.random() * 3) + 1}.jpg`
+  const NUM_IMAGES = 16
+  let imgUrl = `/botlywood-${Math.floor(Math.random() * NUM_IMAGES) + 1}.jpg`
 
   if (genre) {
     const genreMatch = GENRES.filter((str) => genre.includes(str))
