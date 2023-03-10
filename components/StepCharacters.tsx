@@ -3,15 +3,25 @@ import { AppContext } from "./AppContext"
 import StepCharacter from "./StepCharacter"
 import StepCharacterSupporting from "./StepCharacterSupporting"
 import LoadingAnimation from "./LoadingAnimation"
+import TitleFont from "./TitleFont"
+import { getFontClassFromName } from "./util/text"
+import FadeIn from "./ui/FadeIn"
 
 const StepCharacters = () => {
-  const { characters, setCharacters, incrementStep } = useContext(AppContext)
+  const {
+    characters,
+    setCharacters,
+    incrementStep,
+    title,
+    titleFont,
+    colorScheme,
+  } = useContext(AppContext)
 
   let characterStep = <LoadingAnimation />
   if (!characters?.hero) {
     characterStep = (
       <StepCharacter
-        heading="Main Character"
+        heading="Featuring"
         characterType="protagonist"
         onComplete={(hero) => {
           setCharacters({ hero })
@@ -21,7 +31,7 @@ const StepCharacters = () => {
   } else if (!characters?.villain) {
     characterStep = (
       <StepCharacter
-        heading="The Antagonist"
+        heading="Also Starring"
         characterType="villain"
         onComplete={(villain) => {
           setCharacters({ ...characters, villain })
@@ -36,7 +46,14 @@ const StepCharacters = () => {
 
   return (
     <div className="relative z-10 px-4 md:px-0 max-w-5xl text-left mx-auto w-full min-h-[80vh]">
-      {characterStep}
+      <FadeIn>
+        <TitleFont
+          text={title}
+          color={colorScheme?.main || "white"}
+          fontClass={getFontClassFromName(titleFont)}
+        />
+      </FadeIn>
+      <div className="pt-16">{characterStep}</div>
     </div>
   )
 }

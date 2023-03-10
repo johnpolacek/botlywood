@@ -16,13 +16,17 @@ export function trimString(str: string): string {
   return str.replace(regex, "")
 }
 
+export function getFontClassFromName(name: string) {
+  return `font-${name.replace(/ /g, "-").toLowerCase()}`
+}
+
 export function loadGoogleFont(fontName: string): string {
   console.log({ fontName })
   const fontUrl = `https://fonts.googleapis.com/css2?family=${fontName.replace(
     / /g,
     "+"
   )}&display=swap`
-  const className = `font-${fontName.replace(/ /g, "-").toLowerCase()}`
+  const className = getFontClassFromName(fontName)
 
   const link = document.createElement("link")
   link.href = fontUrl

@@ -122,6 +122,8 @@ const AppContextProvider: React.FC<{
         setTitle,
         titleFont: state.titleFont,
         setTitleFont,
+        colorScheme: state.colorScheme,
+        setColorScheme,
         genre: state.genre,
         setGenre,
         plot: state.plot,

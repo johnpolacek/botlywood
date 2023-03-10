@@ -1,14 +1,13 @@
-Ideas
+###TODO
 
-- Header image changes when you pick a genre
-> /imagine a film's opening credits screenshot showing the logo of a movie studio named botlywood that specializes in superheo movies --ar 2:1
+Features
 
-
-
-- Have buttons by the plot summary to modify it with AI
-  - With a twist!
-  - Add superheroes
-  - And then it all goes to hell
-  - Randomize good
-  - Randomize bad
+- Enter your own genre
+- Hybrid Genres
+- Editable titles
 - Casting
+- Edit name and Description
+
+Bugs
+
+- Do not allow no name for character

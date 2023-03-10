@@ -4,15 +4,14 @@ import ImageCrossFade from "./ImageCrossFade"
 import urlSlug from "url-slug"
 
 export default function BackgroundImage() {
-  const { genre } = useContext(AppContext)
+  const { genre, plot } = useContext(AppContext)
 
-  return (
-    <ImageCrossFade
-      imgUrl={
-        genre ? `/genres/botlywood-${urlSlug(genre)}.png` : "/botlywood.png"
-      }
-      width={1728}
-      height={864}
-    />
-  )
+  let imgUrl = `/botlywood-${Math.floor(Math.random() * 3) + 1}.jpg`
+  if (plot) {
+    imgUrl = `/backgrounds/${urlSlug(genre)}.jpg`
+  } else if (genre) {
+    imgUrl = `/genres/botlywood-${urlSlug(genre)}.png`
+  }
+
+  return <ImageCrossFade imgUrl={imgUrl} width={1728} height={864} />
 }

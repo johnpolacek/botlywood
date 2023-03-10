@@ -32,14 +32,10 @@ const StepCharacterSupporting = () => {
     }
   }
 
-  const heading = `Supporting Character ${
-    supportingCharacters.length + 1
-  } / ${numCharacters}`
-
   return (
     <div>
       <StepCharacter
-        heading={heading}
+        heading=""
         characterType="supporting character"
         onComplete={onComplete}
       />

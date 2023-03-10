@@ -5,7 +5,7 @@ import Heading from "./ui/Heading"
 import RadioGroupCards from "./RadioGroupCards"
 import FadeIn from "./ui/FadeIn"
 import LoadingAnimation from "./LoadingAnimation"
-import Modifiers from "./Modifiers"
+import PlotModifiers from "./PlotModifiers"
 
 const PlotPicker: React.FC = () => {
   const { plot, setPlot, plotOptions } = useContext(AppContext)
@@ -34,7 +34,7 @@ const PlotPicker: React.FC = () => {
             }}
             value={plot}
           />
-          <Modifiers />
+          <PlotModifiers />
         </FadeIn>
       </label>
     </div>

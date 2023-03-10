@@ -27,28 +27,24 @@ const RadioGroupTitleCards = ({
   const [colors, setColors] = useState<string[]>([])
 
   useEffect(() => {
-    try {
-      generateFonts()
-    } catch {
-      console.log("Could not generate title fonts.")
-    }
-    try {
-      generateColors()
-    } catch {
-      console.log("Could not generate title colors.")
-    }
+    generateFonts()
+    generateColors()
   }, [])
 
   const generateFonts = async () => {
     const prompt = `You are an API for that will generate 5 different Google font family suggestions for a ${genre} movie. ${plot}. You must reply in JSON format like {fonts:["Open Sans","Roboto","Lato","Source Sans Pro","Poppins"]}`
     const res = await useResponseFromPrompt(prompt)
-    const fontData = JSON.parse(res)
-    const newFonts = fontData.fonts.map((f: string) => trimString(f))
-    const newFontClasses = fontData.fonts.map((f: string) =>
-      loadGoogleFont(trimString(f))
-    )
-    setFonts(newFonts)
-    setFontClasses(newFontClasses)
+    try {
+      const fontData = JSON.parse(res)
+      const newFonts = fontData.fonts.map((f: string) => trimString(f))
+      const newFontClasses = fontData.fonts.map((f: string) =>
+        loadGoogleFont(trimString(f))
+      )
+      setFonts(newFonts)
+      setFontClasses(newFontClasses)
+    } catch {
+      console.log("Could not generate title fonts.")
+    }
   }
 
   const generateColors = async () => {
@@ -90,7 +86,7 @@ const RadioGroupTitleCards = ({
                       ? "border-transparent"
                       : "border-[rgba(255,255,255,.25)]",
                     active ? "border-indigo-500 ring-2 ring-indigo-500" : "",
-                    "relative px-4 py-12 self-center flex bg-[rgba(0,0,0,.75)] cursor-pointer rounded-lg border-2 shadow-sm focus:outline-none"
+                    "flex items-center relative px-4 py-12 self-center flex bg-[rgba(0,0,0,.75)] cursor-pointer rounded-lg border-2 shadow-sm focus:outline-none"
                   )
                 }
               >
@@ -108,8 +104,10 @@ const RadioGroupTitleCards = ({
                       </span>
                     </span>
                     <CheckCircleIcon
-                      className={`text-indigo-200 h-8 w-8 ${
-                        checked ? "" : "invisible"
+                      className={`h-12 w-12 ${
+                        checked
+                          ? "text-indigo-500"
+                          : "text-indigo-800 opacity-50"
                       }`}
                       aria-hidden="true"
                     />
