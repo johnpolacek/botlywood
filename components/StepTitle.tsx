@@ -68,7 +68,7 @@ const StepTitle = () => {
   const modifiers = [
     {
       label: "Outside the Box",
-      modifier: "way outside the box and unpredictable",
+      modifier: "combining words to make a new word",
     },
     { label: "More Fun" },
     { label: "Dramatic", modifier: "more dramatic" },

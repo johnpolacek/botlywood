@@ -2,11 +2,11 @@
 
 Features
 
-- Enter your own genre
-- Hybrid Genres
-- Editable titles
+- Save
 - Casting
 - Edit name and Description
+- Acts
+- Screenplay
 
 Bugs
 

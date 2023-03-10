@@ -32,6 +32,10 @@ export const getCharacterName = async ({
   characterType: string
 }) => {
   const prompt = `Generate a character name with the initials ${getRandomInitials()} for a ${characterType} for a ${genre} story with the plot of "${plot}". Only respond with the name, nothing else.`
-  const name = await useResponseFromPrompt(prompt)
+  let name = await useResponseFromPrompt(prompt)
+  console.log({ name })
+  if (!name) {
+    name = await useResponseFromPrompt(prompt)
+  }
   return name.trim().replace(/\.$/, "")
 }

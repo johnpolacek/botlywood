@@ -31,9 +31,9 @@ const StepCharacter = ({
 
   useEffect(() => {
     if (!isStreaming && character?.description) {
-      getCharacterImage({ character: character, genre }).then((image) => {
-        setCharacter({ ...character, image })
-      })
+      // getCharacterImage({ character: character, genre }).then((image) => {
+      //   setCharacter({ ...character, image })
+      // })
     }
   }, [!isStreaming && character?.description])
 
@@ -68,6 +68,10 @@ const StepCharacter = ({
     await createCharacter()
   }
 
+  const onEditCharacter = async (characterEdit: Character) => {
+    setCharacter(characterEdit)
+  }
+
   return (
     <div className="relative z-10 text-left mx-auto grid gap-8 w-full">
       <FadeIn>
@@ -77,7 +81,11 @@ const StepCharacter = ({
       </FadeIn>
       {character ? (
         <FadeIn>
-          <CharacterCard character={character} onReroll={onRerollCharacter} />
+          <CharacterCard
+            character={character}
+            onReroll={onRerollCharacter}
+            onEdit={onEditCharacter}
+          />
         </FadeIn>
       ) : (
         <LoadingAnimation />
