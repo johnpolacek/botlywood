@@ -5,7 +5,7 @@ import urlSlug from "url-slug"
 import { GENRES } from "../util/constants"
 
 export default function BackgroundImage() {
-  const NUM_IMAGES = 22
+  const NUM_IMAGES = 24
   const [imgUrl, setImgUrl] = useState<string>("")
   const { genre, plot } = useContext(AppContext)
 

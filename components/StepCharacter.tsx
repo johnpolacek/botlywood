@@ -25,19 +25,23 @@ const StepCharacter = ({
   const [character, setCharacter] = useState<Character | null>(null)
   const [isStreaming, setIsStreaming] = useState<boolean>(false)
 
+  console.log("StepCharacter " + characterType)
+
   useEffect(() => {
+    console.log("StepCharacter " + characterType + " useEffect")
     createCharacter()
   }, [])
 
   useEffect(() => {
     if (!isStreaming && character?.description) {
-      // getCharacterImage({ character: character, genre }).then((image) => {
-      //   setCharacter({ ...character, image })
-      // })
+      getCharacterImage({ character: character, genre }).then((image) => {
+        setCharacter({ ...character, image })
+      })
     }
   }, [!isStreaming && character?.description])
 
   const createCharacter = async () => {
+    console.log("createCharacter")
     setIsStreaming(true)
     const characterName = await getCharacterName({
       genre,
@@ -46,9 +50,9 @@ const StepCharacter = ({
     })
     setCharacter({ name: characterName, description: "" })
 
-    const promptHeroDesc = `Generate a 2 sentence character description for a ${characterType} named ${characterName} for a ${genre} movie based on the plot "${plot}"`
+    const promptDesc = `Generate a 2 sentence character description for a ${characterType} named ${characterName} for a ${genre} movie based on the plot "${plot}"`
     await useStreamingDataFromPrompt({
-      prompt: promptHeroDesc,
+      prompt: promptDesc,
       onData: (description) => {
         setCharacter({ name: characterName, description })
       },

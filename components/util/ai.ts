@@ -33,7 +33,7 @@ export const getCharacterName = async ({
 }) => {
   const prompt = `Generate a character name with the initials ${getRandomInitials()} for a ${characterType} for a ${genre} story with the plot of "${plot}". Only respond with the name, nothing else.`
   let name = await useResponseFromPrompt(prompt)
-  console.log({ name })
+  console.log(getCharacterName, { name })
   if (!name) {
     name = await useResponseFromPrompt(prompt)
   }

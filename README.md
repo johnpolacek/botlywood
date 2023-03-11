@@ -1,5 +1,9 @@
 ###TODO
 
+Bugs
+
+- Blocked after generate first supporting
+
 Features
 
 - Acts
@@ -11,11 +15,6 @@ Rate Limiting
 - Require Account to Create Characters
 - Tokens
 
-Bugs
-
-- Prevent blank name for character
-- More debug logging
-
 
 ---
 
@@ -23,4 +22,4 @@ New stuff:
 
 - Keep state in localStorage to resume session
 - Added more automatic retries
-- More background images
+- Sticky background image, more background images
