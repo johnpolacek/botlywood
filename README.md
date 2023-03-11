@@ -2,9 +2,9 @@
 
 Features
 
-- Casting
 - Acts
 - Screenplay
+- Casting
 
 Rate Limiting
 
@@ -15,3 +15,12 @@ Bugs
 
 - Prevent blank name for character
 - More debug logging
+
+
+---
+
+New stuff:
+
+- Keep state in localStorage to resume session
+- Added more automatic retries
+- More background images

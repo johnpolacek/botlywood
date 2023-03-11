@@ -78,36 +78,54 @@ export const useStreamingDataFromPrompt = async ({
 // use this hook to fetch data from a stream
 // and wait for the full result
 export const useResponseFromPrompt = async (prompt: string) => {
-  const response = await fetch("/api/generate", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      prompt,
-    }),
-  })
-
-  if (!response.ok) {
-    throw new Error(response.statusText)
-  }
-
-  // This data is a ReadableStream
-  const data = response.body
-  if (!data) {
-    return ""
-  }
-
-  const reader = data.getReader()
-  const decoder = new TextDecoder()
-  let done = false
+  let retries = 0
   let responseString = ""
+  const MAX_RETRIES = 3
 
-  while (!done) {
-    const { value, done: doneReading } = await reader.read()
-    done = doneReading
-    const chunkValue = decoder.decode(value)
-    responseString += chunkValue
+  while (retries <= MAX_RETRIES && responseString === "") {
+    const response = await fetch("/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt,
+      }),
+    })
+
+    if (!response.ok) {
+      throw new Error(response.statusText)
+    }
+
+    const data = response.body
+    if (!data) {
+      console.log("Empty ReadableStream response from /api/generate")
+      retries++
+      continue
+    }
+
+    const reader = data.getReader()
+    const decoder = new TextDecoder()
+    let done = false
+
+    while (!done) {
+      const { value, done: doneReading } = await reader.read()
+      done = doneReading
+      const chunkValue = decoder.decode(value)
+      responseString += chunkValue
+    }
+
+    if (responseString === "") {
+      console.log(
+        "Empty response from /api/generate on attempt #" + retries + 1
+      )
+      retries++
+      responseString = ""
+    }
+  }
+
+  if (responseString === "") {
+    throw new Error(`Max retries (${MAX_RETRIES}) exceeded`)
   }
 
   return responseString
@@ -115,7 +133,10 @@ export const useResponseFromPrompt = async (prompt: string) => {
 
 // use this hook to fetch data from a stream
 // and wait for the full result
-export const useImageResponseFromPrompt = async (prompt: string, numImages: number) => {
+export const useImageResponseFromPrompt = async (
+  prompt: string,
+  numImages: number
+) => {
   return await fetch("/api/generateImage", {
     method: "POST",
     headers: {
@@ -123,7 +144,7 @@ export const useImageResponseFromPrompt = async (prompt: string, numImages: numb
     },
     body: JSON.stringify({
       prompt,
-      n: numImages
+      n: numImages,
     }),
   })
 }

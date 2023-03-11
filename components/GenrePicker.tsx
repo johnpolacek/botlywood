@@ -10,9 +10,11 @@ import RandomGraphic from "./ui/graphics/Random"
 import NextButton from "./ui/NextButton"
 import { GENRES } from "./util/constants"
 import { formatTitle } from "./util/text"
+import LoadingAnimation from "./LoadingAnimation"
 
 const GenrePicker: React.FC = () => {
   const [genreInput, setGenreInput] = useState<string>("")
+  const [loading, setLoading] = useState<boolean>(false)
 
   const { genre, setGenre, plotOptions, setPlotOptions } =
     useContext(AppContext)
@@ -93,10 +95,13 @@ const GenrePicker: React.FC = () => {
         <button
           disabled={genre !== "" && plotOptions.length < 5}
           onClick={async () => {
+            setLoading(true)
             setGenreInput("")
             const newGenre = await useResponseFromPrompt(
               `Respond with a suggestion for an unusual or very niche movie genre in 3 words or less. Do not reply with any punctuation, just the suggestion`
             )
+            setLoading(false)
+            console.log({ newGenre })
             setGenreInput(formatTitle(newGenre.replace(/^\d+\.\s/, "")))
           }}
           className="transition-all duration-500 bg-blue-600 rounded-lg py-3 text-xl disabled:bg-gray-600 disabled:opacity-80"
@@ -116,6 +121,11 @@ const GenrePicker: React.FC = () => {
           onChange={(e) => setGenreInput(e.target.value)}
         />
       </div>
+      {loading && (
+        <div className="-mt-[152px] -mb-24 scale-50">
+          <LoadingAnimation />
+        </div>
+      )}
       {!genre && (
         <NextButton
           disabled={!genreInput}
