@@ -26,6 +26,8 @@ export default function BackgroundImage() {
   }, [genre, plot])
 
   return imgUrl ? (
-    <ImageCrossFade imgUrl={imgUrl} width={1728} height={864} />
+    <div className="fixed w-full h-full">
+      <ImageCrossFade imgUrl={imgUrl} width={1728} height={864} />
+    </div>
   ) : null
 }

@@ -117,7 +117,7 @@ export const useResponseFromPrompt = async (prompt: string) => {
 
     if (responseString === "") {
       console.log(
-        "Empty response from /api/generate on attempt #" + retries + 1
+        "Empty response from /api/generate on attempt #" + (retries + 1)
       )
       retries++
       responseString = ""

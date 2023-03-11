@@ -86,7 +86,7 @@ const RadioGroupTitleCards = ({
                       ? "border-transparent"
                       : "border-[rgba(255,255,255,.25)]",
                     active ? "border-indigo-500 ring-2 ring-indigo-500" : "",
-                    "flex items-center relative px-4 py-12 self-center flex bg-[rgba(0,0,0,.75)] cursor-pointer rounded-lg border-2 shadow-sm focus:outline-none"
+                    "flex items-center relative px-4 py-12 self-center flex bg-[rgba(0,0,0,.8)] cursor-pointer rounded-lg border-2 shadow-sm focus:outline-none"
                   )
                 }
               >

@@ -35,7 +35,7 @@ const RadioGroupCards = ({
                       ? "border-transparent"
                       : "border-[rgba(255,255,255,.25)]",
                     active ? "border-indigo-500 ring-2 ring-indigo-500" : "",
-                    "relative flex p-4 bg-[rgba(0,0,0,.66)] cursor-pointer rounded-lg border-2 shadow-sm focus:outline-none"
+                    "relative flex p-4 bg-[rgba(0,0,0,.8)] cursor-pointer rounded-lg border-2 shadow-sm focus:outline-none"
                   )
                 }
               >
