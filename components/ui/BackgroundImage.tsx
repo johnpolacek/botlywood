@@ -9,10 +9,7 @@ export default function BackgroundImage() {
   const [imgUrl, setImgUrl] = useState<string>("")
   const { genre, plot } = useContext(AppContext)
 
-  console.log({ genre, plot })
-
   useEffect(() => {
-    console.log("useEffect", { genre, plot })
     if (genre) {
       const genreMatch = GENRES.filter((str) => genre.includes(str))
       console.log({ genreMatch })

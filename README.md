@@ -2,12 +2,16 @@
 
 Features
 
-- Save
 - Casting
-- Edit name and Description
 - Acts
 - Screenplay
 
+Rate Limiting
+
+- Require Account to Create Characters
+- Tokens
+
 Bugs
 
-- Do not allow no name for character
+- Prevent blank name for character
+- More debug logging

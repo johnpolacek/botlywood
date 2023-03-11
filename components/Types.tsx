@@ -38,7 +38,6 @@ export type AppContextType = {
   children?: React.ReactNode
   isSubmitted: boolean
   setIsSubmitted: (isSubmitted: boolean) => void
-  generatedId?: string
 }
 
 export type TitleSelection = {

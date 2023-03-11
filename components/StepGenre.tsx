@@ -14,7 +14,7 @@ const StepGenre = () => {
 
   return (
     <div className="relative z-10">
-      <div className="min-h-[300px]">
+      <div className="min-h-[300px] min-w-[640px]">
         <GenrePicker />
         {context.genre && <PlotPicker />}
       </div>

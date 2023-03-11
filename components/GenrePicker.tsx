@@ -42,8 +42,12 @@ const GenrePicker: React.FC = () => {
   }
 
   return (
-    <div className="sm:mb-4 items-center sm:space-x-3 max-w-lg mx-auto relative z-10">
-      <label className="flex flex-col gap-4">
+    <div
+      className={`sm:mb-4 items-center sm:space-x-3 max-w-lg mx-auto relative z-10 ${
+        genre && "hidden"
+      }`}
+    >
+      <div className="flex flex-col gap-4 px-2">
         <Heading>Choose a genre for your movie</Heading>
         <select
           className="text-black rounded-lg text-center py-3 text-xl"
@@ -100,7 +104,7 @@ const GenrePicker: React.FC = () => {
           <RandomGraphic />
           <span>Go Outside the Box</span>
         </button>
-      </label>
+      </div>
       <div className="mt-8 mb-16">
         <label className="w-full pb-2 italic block" htmlFor="genre">
           Or enter your own

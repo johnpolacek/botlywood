@@ -48,7 +48,7 @@ const RadioGroupTitleCards = ({
   }
 
   const generateColors = async () => {
-    const colorPrompt = `You are an API for that will generate 5 different css color names for the title of a ${genre} movie. The text colors should not be white but should still look good on a dark background. You must reply in JSON format like {colors:["khaki","ivory","pink","lightcoral","honeydew"]}`
+    const colorPrompt = `You are an API for that will generate 5 different css color names for the title of a ${genre} movie. The text colors should not be white but should be readable on a dark background. You must reply in JSON format like {colors:["khaki","ivory","pink","lightcoral","honeydew"]}`
     const resColors = await useResponseFromPrompt(colorPrompt)
     try {
       const colorData = JSON.parse(resColors)

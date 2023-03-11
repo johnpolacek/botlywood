@@ -1,29 +1,32 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useState, useEffect } from "react"
 import { Characters, AppContextType, ColorScheme } from "./Types"
 
-const AppContext = createContext<AppContextType>({
+const DEFAULT_STATE = {
   step: 0,
+  title: "",
+  titleFont: "",
+  colorScheme: null,
+  genre: "",
+  plot: "",
+  plotOptions: [],
+  characters: undefined,
+  acts: [],
+  isSubmitted: false,
+}
+
+const AppContext = createContext<AppContextType>({
+  ...DEFAULT_STATE,
   setStep: () => {},
   incrementStep: () => {},
-  title: "",
   setTitle: () => {},
-  titleFont: "",
   setTitleFont: () => {},
-  colorScheme: null,
   setColorScheme: () => {},
-  genre: "",
   setGenre: () => {},
-  plot: "",
   setPlot: () => {},
-  plotOptions: [],
   setPlotOptions: () => {},
-  acts: [],
   setActs: () => {},
-  characters: undefined,
   setCharacters: () => {},
-  isSubmitted: false,
   setIsSubmitted: () => {},
-  generatedId: undefined,
 })
 
 const AppContextProvider: React.FC<{
@@ -40,20 +43,34 @@ const AppContextProvider: React.FC<{
     characters: Characters | undefined
     acts: string[]
     isSubmitted: boolean
-    generatedId: undefined | string
-  }>({
-    step: 0,
-    title: "",
-    titleFont: "",
-    colorScheme: null,
-    genre: "",
-    plot: "",
-    plotOptions: [],
-    characters: undefined,
-    acts: [],
-    isSubmitted: false,
-    generatedId: undefined,
+  }>(() => {
+    // Use localStorage value if available, otherwise use default values
+    const localStorageValue =
+      typeof window !== "undefined" ? localStorage.getItem("appState") : null
+    let restoreAppState = {}
+    if (localStorageValue) {
+      try {
+        restoreAppState = JSON.parse(localStorageValue)
+      } catch (error) {
+        // swallow error - could be malformed data if out-of-date schema
+      }
+    }
+    return { ...DEFAULT_STATE, ...restoreAppState }
   })
+
+  useEffect(() => {
+    // Store state in localStorage whenever it changes
+    if (typeof window !== "undefined") {
+      localStorage.setItem("appState", JSON.stringify(state))
+    }
+  }, [state])
+
+  useEffect(() => {
+    // Store state in localStorage whenever it changes
+    if (typeof window !== "undefined") {
+      localStorage.setItem("appState", JSON.stringify(state))
+    }
+  }, [state])
 
   const setStep = (newStep: number) => {
     setState((prevState) => ({ ...prevState, step: newStep }))
@@ -108,10 +125,6 @@ const AppContextProvider: React.FC<{
     setState((prevState) => ({ ...prevState, isSubmitted }))
   }
 
-  const setGeneratedId = (generatedId: string) => {
-    setState((prevState) => ({ ...prevState, generatedId }))
-  }
-
   return (
     <AppContext.Provider
       value={{
@@ -136,7 +149,6 @@ const AppContextProvider: React.FC<{
         setActs,
         isSubmitted: state.isSubmitted,
         setIsSubmitted,
-        generatedId: state.generatedId,
       }}
     >
       {children}

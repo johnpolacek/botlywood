@@ -3,6 +3,7 @@ import { AppContext } from "./AppContext"
 import StepGenre from "./StepGenre"
 import StepCharacters from "./StepCharacters"
 import StepTitle from "./StepTitle"
+import StartOver from "./StartOver"
 
 const Steps: React.FC = () => {
   const { step } = useContext(AppContext)
@@ -21,6 +22,7 @@ const Steps: React.FC = () => {
         {step === 1 && <StepTitle />}
         {step === 2 && <StepCharacters />}
       </div>
+      {step > 0 && <StartOver />}
     </div>
   )
 }

@@ -3,7 +3,6 @@ import Head from "next/head"
 import Header from "../components/Header"
 import App from "../components/App"
 import Footer from "../components/Footer"
-import { AppContextProvider } from "../components/AppContext"
 
 const Home: NextPage = () => {
   return (
@@ -13,9 +12,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <AppContextProvider>
-        <App />
-      </AppContextProvider>
+      <App />
       <Footer />
     </div>
   )
