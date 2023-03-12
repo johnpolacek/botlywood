@@ -9,6 +9,7 @@ Features
 - Acts
 - Screenplay
 - Casting
+- Edit Title
 
 Rate Limiting
 
