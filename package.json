@@ -20,7 +20,6 @@
     "eventsource-parser": "^0.0.5",
     "firebase": "^9.17.1",
     "firebase-admin": "^11.5.0",
-    "framer-motion": "^8.4.3",
     "next": "latest",
     "onchange": "^7.1.0",
     "partial-json-parser": "^1.2.2",
