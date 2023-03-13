@@ -3,6 +3,7 @@
 Bugs
 
 - Blocked after generate first supporting
+- Load custom font on reload
 
 Features
 

@@ -30,7 +30,7 @@ const StepCharacter = ({
   useEffect(() => {
     console.log("StepCharacter " + characterType + " useEffect")
     createCharacter()
-  }, [])
+  }, [heading])
 
   useEffect(() => {
     if (!isStreaming && character?.description) {
