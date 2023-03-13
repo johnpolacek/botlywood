@@ -1,99 +1,83 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { AppContext } from "./AppContext"
-import { useResponseFromPrompt } from "../lib/openai/hooks"
+import FadeIn from "./ui/FadeIn"
+import untruncateJson from "untruncate-json"
+import { useStreamingDataFromPrompt } from "../lib/openai/hooks"
+import NextButton from "./ui/NextButton"
+import TitleFont from "./TitleFont"
+import { getFontClassFromName } from "./util/text"
 
 const StepActs = () => {
-  const context = useContext(AppContext)
+  const {
+    title,
+    titleFont,
+    colorScheme,
+    genre,
+    plot,
+    acts,
+    setActs,
+    incrementStep,
+  } = useContext(AppContext)
 
   useEffect(() => {
-    getActs()
+    generateActs()
   }, [])
 
-  const getActs = async () => {
-    console.log("getActs")
-  }
-
-  useEffect(() => {
-    const getTitle = async () => {
-      const prompt = `Generate a movie title for ${
-        context.genre
-      } movie based on this plot "${context.plot}" ${
-        context.acts ? "and three acts of " + context.acts.join(", ") : ""
-      }`
-      const title = await useResponseFromPrompt(prompt)
-      if (title) {
-        context.setTitle(title.split(":")[0].replace(/"/g, ""))
-      } else {
-        alert("Sorry there was a problem with the robots.")
-      }
-    }
-    if (!context.title) {
-      getTitle()
-    }
-  }, [context.title])
-
-  const onReroll = async (e: React.SyntheticEvent) => {
-    e.preventDefault()
-
-    const prompt = `Generate 3 acts for a ${context.genre} movie based on the plot "${context.plot}". Respond in JSON format as an array of strings`
-    const actsString = await useResponseFromPrompt(prompt)
-
-    if (actsString) {
-      try {
-        const acts = JSON.parse(actsString)
-        context.setActs(acts)
-      } catch (error) {
-        console.error(error)
-        alert("Sorry there was a problem with the robots.")
-      }
-    } else {
-      alert("Sorry there was a problem with the robots.")
-    }
+  const generateActs = async () => {
+    const prompt = `Generate 3 acts for a ${genre} movie based on the plot "${plot}". Respond in JSON format as an array of strings in the form of {acts: []}`
+    await useStreamingDataFromPrompt({
+      prompt,
+      onData: (actsString) => {
+        try {
+          const actsStream = JSON.parse(untruncateJson(actsString))
+          const parseActs = {
+            ...actsStream,
+            acts: actsStream.acts.map((act) => act.replace(/Act \d+: /, "")),
+          }
+          setActs(parseActs.acts)
+        } catch (error) {
+          console.error(error)
+        }
+      },
+      onError: () => {
+        console.log("Acts generation failed, retry...")
+        generateActs()
+      },
+    })
   }
 
   const onCompleteStep = () => {
-    context.incrementStep()
+    incrementStep()
   }
+
+  console.log({ acts })
 
   return (
     <div className="relative z-10 max-w-3xl text-left mx-auto">
-      {context.title && (
-        <h2 className="text-5xl pb-12 w-full text-center font-bold">
-          {context.title}
-        </h2>
-      )}
-      {context.acts.map((act, i) => (
-        <div className="pb-8">
-          <div className="text-3xl text-center font-bold pb-2">{`Act ${
-            i + 1
-          }`}</div>
-          <div className="text-lg">{act}</div>
-        </div>
-      ))}
-      {!context.acts && (
-        <div className="w-full flex justify-center py-16 relative z-10">
-          <img
-            width="120"
-            height="120"
-            src="/loading.svg"
-            alt="Loading plots"
-          />
-        </div>
-      )}
-      <div className="text-center pt-4">
-        <button
-          onClick={onCompleteStep}
-          className={`bg-indigo-600 rounded-xl text-white font-medium text-xl sm:text-3xl py-4 pl-12 pr-16 mt-2 mb-4 ${
-            context.genre && context.plot ? "" : "opacity-0 pointer-events-none"
-          }`}
-        >
-          <span className="inline-block relative">
-            Next{" "}
-            <span className="font-thin text-4xl absolute -top-2 -right-8 pt-px">
-              »
-            </span>
-          </span>
-        </button>
+      <FadeIn>
+        <TitleFont
+          text={title}
+          color={colorScheme?.main || "white"}
+          fontClass={getFontClassFromName(titleFont)}
+        />
+      </FadeIn>
+      <div className="w-full min-h-[540px] bg-[rgba(0,0,0,.75)] mt-8 py-4 px-8 border-4 border-[rgba(255,255,255,.1)] rounded-lg">
+        {acts.map((act, i) => (
+          <div className="w-full pb-4">
+            <h3 className="w-full text-3xl font-bold pb-4 text-center">
+              Act {i + 1}
+            </h3>
+            <p className="text-lg pb-4">{act}</p>
+          </div>
+        ))}
+      </div>
+      <div className="text-center pt-12">
+        <NextButton
+          disabled={acts.length < 3}
+          onClick={() => {
+            incrementStep()
+          }}
+        />
       </div>
     </div>
   )

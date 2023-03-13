@@ -5,7 +5,7 @@ const Heading = ({
 }) => (
   <h3
     style={{ textShadow: "#000 0 0 4px" }}
-    className={`text-2xl sm:text-3xl font-bold w-full pb-4`}
+    className={`text-2xl sm:text-3xl md:text-4xl font-bold w-full pb-4`}
   >
     {children}
   </h3>

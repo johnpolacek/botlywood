@@ -3,6 +3,7 @@ import { AppContext } from "./AppContext"
 import GenrePicker from "./GenrePicker"
 import PlotPicker from "./PlotPicker"
 import NextButton from "./ui/NextButton"
+import StartOver from "./StartOver"
 
 const StepGenre = () => {
   const context = useContext(AppContext)
@@ -24,6 +25,7 @@ const StepGenre = () => {
           disabled={!context.genre || !context.plot}
         />
       )}
+      <StartOver />
     </div>
   )
 }
