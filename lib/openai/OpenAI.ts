@@ -5,7 +5,7 @@ import {
 } from "eventsource-parser"
 
 export type Message = {
-  role: string
+  role: "system" | "user" | "assistant"
   content: string
 }
 
@@ -92,23 +92,23 @@ export async function OpenChatGPTStream(payload: ChatGPTStreamPayload) {
 }
 
 interface Params {
-  prompt: string;
-  n?: number;
-  size?: string;
-  response_format?: string;
-  user?: string;
+  prompt: string
+  n?: number
+  size?: string
+  response_format?: string
+  user?: string
 }
 
 export async function generateImage({ prompt, n }: Params) {
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.OPENAI_API_KEY
   const params = {
     prompt,
     n,
-  };
+  }
   const headers = {
     Authorization: `Bearer ${apiKey}`,
     "Content-Type": "application/json",
-  };
+  }
   const req = {
     method: "POST",
     headers: headers,
@@ -118,19 +118,18 @@ export async function generateImage({ prompt, n }: Params) {
   try {
     const response = await fetch(
       "https://api.openai.com/v1/images/generations",
-      req,
-    );
+      req
+    )
 
-    const result = await response.json();
+    const result = await response.json()
 
     if (response.ok) {
-      return result;
+      return result
     } else {
-      throw new Error(result.error || "Failed to generate image");
+      throw new Error(result.error || "Failed to generate image")
     }
   } catch (error) {
-    console.error(error);
-    throw new Error("Failed to generate image");
+    console.error(error)
+    throw new Error("Failed to generate image")
   }
 }
-

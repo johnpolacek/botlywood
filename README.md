@@ -2,12 +2,13 @@
 
 Bugs
 
-- Blocked after generate first supporting
 - Load custom font on reload
+
 
 Features
 
-- Acts
+- Use messages to build characters on each other
+- Background images of characters
 - Screenplay
 - Casting
 - Edit Title
