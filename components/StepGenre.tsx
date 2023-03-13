@@ -20,12 +20,14 @@ const StepGenre = () => {
         {context.genre && <PlotPicker />}
       </div>
       {context.genre && (
-        <NextButton
-          onClick={onCompleteStep}
-          disabled={!context.genre || !context.plot}
-        />
+        <>
+          <NextButton
+            onClick={onCompleteStep}
+            disabled={!context.genre || !context.plot}
+          />
+          <StartOver />
+        </>
       )}
-      <StartOver />
     </div>
   )
 }
